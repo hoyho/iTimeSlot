@@ -6,18 +6,10 @@ namespace iTimeSlot.Shared
 
     public static class DefaultConfig
     {
-        public static string[] RemindBefores = new string[]
-        {
-            "1 minute before",
-            "2 minute before",
-            "5 minute before",
-            "10 minute before"
-        };
-
-
         public static readonly List<TimeSpan> SysWorkTimeSlots = new List<TimeSpan>{
             TimeSpan.FromMinutes(25),
-            TimeSpan.FromMinutes(60)
+            TimeSpan.FromMinutes(15),
+            TimeSpan.FromMinutes(30)
         };
         public static readonly List<TimeSpan> SysBreakTimeSlots = new List<TimeSpan>{
             TimeSpan.FromMinutes(5),
