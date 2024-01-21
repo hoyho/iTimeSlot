@@ -2,7 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using ObjCRuntime;
 
-namespace NoCloud.Views;
+namespace iTimeSlot.Views;
 
 public partial class SettingPage : ContentPage
 {
@@ -27,7 +27,7 @@ public partial class SettingPage : ContentPage
 				Console.WriteLine(setting?.URL);
 				BindingContext = setting;
 				Console.WriteLine("BindingContext updated");
-				await NoCloud.Views.Common.ShowToastAsync("BindingContext updated from setting.json");
+				await iTimeSlot.Views.Common.ShowToastAsync("BindingContext updated from setting.json");
 			}
 			catch (Exception ex)
 			{
@@ -62,7 +62,7 @@ public partial class SettingPage : ContentPage
 				Console.WriteLine(ex.Message);
 
 			}
-			await NoCloud.Views.Common.ShowToastAsync("Setting saved");
+			await iTimeSlot.Views.Common.ShowToastAsync("Setting saved");
 			// // Navigate to the specified URL in the system browser.
 			// await Launcher.Default.OpenAsync(s.URL);
 

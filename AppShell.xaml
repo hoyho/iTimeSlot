@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
-    x:Class="NoCloud.AppShell"
+    x:Class="iTimeSlot.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:views="clr-namespace:NoCloud.Views"
+    xmlns:views="clr-namespace:iTimeSlot.Views"
     Shell.FlyoutBehavior="Disabled"
-    Title="NoCloud">
+    Title="iTimeSlot">
 
-    <!--  xmlns:local="clr-namespace:NoCloud" map xml namespace local to .net namespace NoCloud-->
+    <!--  xmlns:local="clr-namespace:iTimeSlot" map xml namespace local to .net namespace iTimeSlot-->
 
     <TabBar>
         <ShellContent
-            Title="Home"
+            Title="Slot"
             ContentTemplate="{DataTemplate views:MainPage}"
             Route="MainPage" />
 
         <ShellContent
-            Title="Setting"
+            Title="General"
+            ContentTemplate="{DataTemplate views:MainPage}"
+            Route="MainPage" />
+
+        <ShellContent
+            Title="Me"
             ContentTemplate="{DataTemplate views:SettingPage}"
             Route="SettingPage" />
     </TabBar>

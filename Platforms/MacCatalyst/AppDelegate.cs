@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace NoCloud;
+namespace iTimeSlot;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

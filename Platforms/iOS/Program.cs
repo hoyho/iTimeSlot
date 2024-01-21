@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace NoCloud;
+namespace iTimeSlot;
 
 public class Program
 {

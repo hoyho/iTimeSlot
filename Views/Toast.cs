@@ -1,7 +1,7 @@
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 
-namespace NoCloud.Views
+namespace iTimeSlot.Views
 {
     public static class Common
     {

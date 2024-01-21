@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 
-namespace NoCloud;
+namespace iTimeSlot;
 
 public static class MauiProgram
 {

@@ -1,4 +1,4 @@
-﻿namespace NoCloud.Views;
+﻿namespace iTimeSlot.Views;
 
 public partial class MainPage : ContentPage
 {

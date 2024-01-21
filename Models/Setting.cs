@@ -1,4 +1,4 @@
-namespace NoCloud.Models
+namespace iTimeSlot.Models
 {
     public class Setting
     {

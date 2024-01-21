@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace NoCloud;
+namespace iTimeSlot;
 
 [Application]
 public class MainApplication : MauiApplication

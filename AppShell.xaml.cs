@@ -1,4 +1,4 @@
-﻿namespace NoCloud;
+﻿namespace iTimeSlot;
 
 public partial class AppShell : Shell
 {
