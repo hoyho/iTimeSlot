@@ -17,8 +17,8 @@
 
         <ShellContent
             Title="General"
-            ContentTemplate="{DataTemplate views:MainPage}"
-            Route="MainPage" />
+            ContentTemplate="{DataTemplate views:GeneralPage}"
+            Route="GeneralPage" />
 
         <ShellContent
             Title="Me"
