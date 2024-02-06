@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using iTimeSlot.Services;
 
 namespace iTimeSlot;
 
@@ -20,6 +21,8 @@ public static class MauiProgram
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
+            builder.Services.AddSingleton<ITrayService, MacCatalyst.TrayService>();
+            builder.Services.AddSingleton<INotificationService, MacCatalyst.NotificationService>();
 
 		return builder.Build();
 	}

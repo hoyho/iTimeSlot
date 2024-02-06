@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using iTimeSlot.Services;
 
 namespace iTimeSlot.Views;
 
@@ -8,12 +9,20 @@ public partial class MainPage : ContentPage
 	// TimeSpan SelectedTime = TimeSpan.FromMinutes(10);
 	List<TimeSpan> allTimeSlots = new();
 
+	static bool isSetup = false;
+
 
 	public MainPage()
 	{
 		InitializeComponent();
 
 		LoadTimeSlots();
+
+		if (!isSetup)
+        {
+            isSetup = true;
+            SetupTrayIcon();
+        }
 	}
 
 	private void LoadTimeSlots()
@@ -74,5 +83,18 @@ public partial class MainPage : ContentPage
 		pickerCurrentTimeSlot.IsEnabled = true;
 
 	}
+
+	private void SetupTrayIcon()
+    {
+        var trayService = ServiceProvider.GetService<ITrayService>();
+
+        if (trayService != null)
+        {
+            trayService.Initialize();
+            trayService.ClickHandler = () =>
+                ServiceProvider.GetService<INotificationService>()
+                    ?.ShowNotification("Hello Build! 😻 From .NET MAUI", "How's your weather?  It's sunny where we are 🌞");
+        }
+    }
 }
 
