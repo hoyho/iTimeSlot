@@ -7,6 +7,7 @@ namespace iTimeSlot.Shared
     //ProgressBarUpdateDelegate is the delagate func of ProgressBar.ProgressTo as they have identical signature
     public delegate Task<bool> ProgressBarUpdateDelegate(double value, uint length, Easing easing);
 
+    public delegate void OnTimeUpDelegate();
 
     internal static class Global
     {
@@ -21,17 +22,19 @@ namespace iTimeSlot.Shared
 
         // public Func<double, uint, Easing, Task<bool>>? ProgessUpdater;
         public ProgressBarUpdateDelegate? ProgessUpdater;
+        public OnTimeUpDelegate? onTimeupCallback;
 
 
         private bool _isStarted = false;
 
-        public void Init(DateTime startTime, TimeSpan duration, ProgressBarUpdateDelegate updateFunc)
+        public void Init(DateTime startTime, TimeSpan duration, ProgressBarUpdateDelegate updateFunc, OnTimeUpDelegate onTimeupFunc)
         {
             this.Stop();
             StartTime = startTime;
             Duration = duration;
             EndTime = startTime.Add(duration);
             ProgessUpdater = updateFunc;
+            onTimeupCallback = onTimeupFunc;
         }
 
         public bool IsTimeUp()
@@ -55,6 +58,9 @@ namespace iTimeSlot.Shared
                 {
                     if (IsTimeUp())
                     {
+                        Console.WriteLine("Time up callback");
+                        onTimeupCallback?.Invoke();
+                        Console.WriteLine("Time up callback done");
                         break;
                     }
                     Thread.Sleep(1000);

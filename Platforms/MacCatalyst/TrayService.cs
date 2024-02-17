@@ -7,6 +7,16 @@ namespace iTimeSlot.MacCatalyst;
 
 public class TrayService : NSObject, ITrayService
 {
+    /* Read me about interop with macOS:
+    https://learn.microsoft.com/en-us/xamarin/ios/internals/objective-c-selectors
+    https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/WorkingwithObjects/WorkingwithObjects.html#//apple_ref/doc/uid/TP40011210-CH4-SW2
+
+    A selector is a message that can be sent to an object or a class
+    Unlike normal C functions (and like C++ member functions), 
+    you cannot directly invoke a selector using P/Invoke 
+    Instead, selectors are sent to an Objective-C class or instance using the objc_msgSend function.
+    */
+
     [DllImport("/usr/lib/libobjc.dylib", EntryPoint = "objc_msgSend")]
     public static extern IntPtr IntPtr_objc_msgSend_nfloat(IntPtr receiver, IntPtr selector, nfloat arg1);
 
@@ -32,9 +42,14 @@ public class TrayService : NSObject, ITrayService
 
     public void Initialize()
     {
+        //API: https://developer.apple.com/documentation/appkit/nsstatusbar?language=objc
+        //statusBarItem = NSStatusBar.systemStatusBar.statusItemWithLength(-1)
         statusBarObj = Runtime.GetNSObject(Class.GetHandle("NSStatusBar"));
+        //PerformSelector： Sends a message to the receiver with an object as the argument.
         systemStatusBarObj = statusBarObj.PerformSelector(new Selector("systemStatusBar"));
         statusBarItem = Runtime.GetNSObject(IntPtr_objc_msgSend_nfloat(systemStatusBarObj.Handle, Selector.GetHandle("statusItemWithLength:"), -1));
+        
+        //statusBarItem.button.image = NSImage.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource_ofType("trayicon", "png"))
         statusBarButton = Runtime.GetNSObject(IntPtr_objc_msgSend(statusBarItem.Handle, Selector.GetHandle("button")));
         statusBarImage = Runtime.GetNSObject(IntPtr_objc_msgSend(ObjCRuntime.Class.GetHandle("NSImage"), Selector.GetHandle("alloc")));
 
