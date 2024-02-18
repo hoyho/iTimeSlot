@@ -1,11 +1,14 @@
 using System.Security.Cryptography.X509Certificates;
-using CommunityToolkit.Maui.Converters;
-using CoreBluetooth;
+using System;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading;
+using System.Threading.Tasks;
+
 
 namespace iTimeSlot.Shared
 {
     //ProgressBarUpdateDelegate is the delagate func of ProgressBar.ProgressTo as they have identical signature
-    public delegate Task<bool> ProgressBarUpdateDelegate(double value, uint length, Easing easing);
+    public delegate void ProgressBarUpdateDelegate(double value);
 
     public delegate void OnTimeUpDelegate();
 
@@ -33,6 +36,7 @@ namespace iTimeSlot.Shared
             StartTime = startTime;
             Duration = duration;
             EndTime = startTime.Add(duration);
+            Console.WriteLine("start time: " + StartTime, "Duration: " + Duration, "End time: " + EndTime);
             ProgessUpdater = updateFunc;
             onTimeupCallback = onTimeupFunc;
         }
@@ -64,8 +68,8 @@ namespace iTimeSlot.Shared
                         break;
                     }
                     Thread.Sleep(1000);
-                    var remainProgess = (EndTime - DateTime.Now).TotalSeconds / Duration.TotalSeconds;
-                    ProgessUpdater?.Invoke(remainProgess, 500, Easing.Linear);
+                    var remainProgess = 100*(EndTime - DateTime.Now).TotalSeconds / Duration.TotalSeconds;
+                    ProgessUpdater?.Invoke(remainProgess);
                 }
             });
             return _isStarted;

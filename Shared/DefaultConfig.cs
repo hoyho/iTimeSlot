@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace iTimeSlot.Shared
 {
 
@@ -14,6 +17,7 @@ namespace iTimeSlot.Shared
 
         public static List<TimeSpan> SysTimeSlots = new List<TimeSpan>{
             TimeSpan.FromSeconds(2),
+            TimeSpan.FromSeconds(10),
             TimeSpan.FromMinutes(5),
             TimeSpan.FromMinutes(15),
             TimeSpan.FromMinutes(20),
