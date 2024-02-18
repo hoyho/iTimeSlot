@@ -5,8 +5,6 @@ namespace iTimeSlot.Views;
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
-	// TimeSpan SelectedTime = TimeSpan.FromMinutes(10);
 	List<TimeSpan> allTimeSlots = new();
 
 	static bool isSetup = false;
@@ -22,6 +20,10 @@ public partial class MainPage : ContentPage
 		{
 			isSetup = true;
 			SetupTrayIcon();
+		}
+		else
+		{
+			Console.WriteLine("TrayIcon already setup,skip");
 		}
 	}
 
@@ -69,7 +71,7 @@ public partial class MainPage : ContentPage
 
 		var tm = Shared.Global.MyTimer;
 		var selected = allTimeSlots[pickerCurrentTimeSlot.SelectedIndex];
-		tm.Init(DateTime.Now, selected, progressBar.ProgressTo, this.PopTimeupPage);
+		tm.Init(DateTime.Now, selected, progressBar.ProgressTo, this.DisplayTimeupAlert);
 		//update to full before start which will be reset to 0
 		await progressBar.ProgressTo(1, 0, Easing.Default);
 		progressBar.IsVisible = true;
@@ -103,26 +105,36 @@ public partial class MainPage : ContentPage
 		}
 	}
 
-	private async void PopTimeupPage()
+	private async void DisplayTimeupAlert()
 	{
-		// await Dispatcher.DispatchAsync(async () =>
-		// {
-		//      await Navigation.PushModalAsync(new TimerDonePopUpPage(), false);
-		// }).ConfigureAwait(false);
-
 		await Dispatcher.DispatchAsync(async () =>
 		{
-			var secondWindow = new Window
+			// var secondWindow = new Window
+			// {
+			// 	Page = new TimerDonePopUpPage { Title = "Timer Done" },
+			// 	Height = 50,
+			// 	Width = 60,
+			// 	MaximumHeight = 250,
+			// 	MaximumWidth = 350
+			// };
+			// Application.Current.OpenWindow(secondWindow);
+			//await Navigation.PushAsync(new TimerDonePopUpPage());
+
+			bool ok = await DisplayAlert("Timer done", "Take a break", "Ok", "Restart");
+			if (ok)
 			{
-				Page = new TimerDonePopUpPage { Title = "Timer Done" },
-				Height = 50,
-				Width = 60,
-				MaximumHeight = 250,
-				MaximumWidth = 350
-			};
-			Application.Current.OpenWindow(secondWindow);
+				//close this alert and reset
+				OnCancelClicked(this, EventArgs.Empty);
+			}
+			else
+			{
+				//close this alert and restart
+				OnCancelClicked(this, EventArgs.Empty);
+				OnStartClicked(this, EventArgs.Empty);
+			}
 
 		}).ConfigureAwait(false);
+		Console.WriteLine("PopTimeupPage done");
 	}
 }
 
