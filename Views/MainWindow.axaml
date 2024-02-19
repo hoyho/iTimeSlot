@@ -17,14 +17,22 @@
 
 
 
-    <TabControl TabStripPlacement="Bottom" HorizontalAlignment="Stretch" BorderBrush="Black"  >
+    <TabControl TabStripPlacement="Bottom" HorizontalAlignment="Center" Padding="50" BorderBrush="Black"  >
         <TabItem Header="Slot" >
             <ScrollViewer>
                 <StackPanel Orientation="Vertical" >
                     <Label Content="Current Time Slot:"/>
-                    <TimePicker x:Name="pickerCurrentTimeSlot" ClockIdentifier="24HourClock" MinuteIncrement="5" SelectedTime="00:05" />
 
-                    <ProgressBar x:Name="progressBar"  Margin="0 10" Height="20"  Minimum="0" Maximum="100" Value="1" ShowProgressText="True"/>
+                    <ComboBox x:Name="pickerCurrentTimeSlot" SelectedIndex="0"
+                              Width="200" MaxDropDownHeight="300" ItemsSource="null">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding }" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    
+                    <ProgressBar x:Name="progressBar"  Margin="0 10" Height="20"  Minimum="0" Maximum="100" Value="100" ShowProgressText="True"/>
 
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="StartBtn" Click="OnStartClickHandler">Start</Button>
