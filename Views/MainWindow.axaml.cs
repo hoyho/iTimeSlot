@@ -18,9 +18,9 @@ namespace iTimeSlot_avalonia.Views;
 
 public partial class MainWindow : Window
 {
-    List<TimeSpan> allTimeSlots = new();
+    List<TimeSpan> _allTimeSlots = new();
 
-    static bool isSetup = false;
+    static bool _isSetup = false;
     public MainWindow()
     {
         InitializeComponent();
@@ -28,7 +28,7 @@ public partial class MainWindow : Window
     }
     private void LoadTimeSlots()
     {
-        allTimeSlots.Clear();
+        _allTimeSlots.Clear();
 
         Console.WriteLine("LoadTimeSlots");
 
@@ -42,7 +42,7 @@ public partial class MainWindow : Window
                 string jsonString = File.ReadAllText(fileName);
                 Console.WriteLine(jsonString);
                 List<TimeSpan> slots = JsonSerializer.Deserialize<List<TimeSpan>>(jsonString);
-                allTimeSlots = slots;
+                _allTimeSlots = slots;
             }
             catch (Exception ex)
             {
@@ -52,10 +52,10 @@ public partial class MainWindow : Window
         else
         {
             Console.WriteLine("setting.json not found, use default time slots");
-            allTimeSlots = iTimeSlot.Shared.DefaultConfig.SysTimeSlots;
+            _allTimeSlots = iTimeSlot.Shared.DefaultConfig.SysTimeSlots;
         }
 
-        pickerCurrentTimeSlot.ItemsSource = allTimeSlots;
+        pickerCurrentTimeSlot.ItemsSource = _allTimeSlots;
         pickerCurrentTimeSlot.SelectedIndex = 0;
         //pickerCurrentTimeSlot.SelectedIndex = 0; //todo: load from setting
     }
@@ -64,7 +64,7 @@ public partial class MainWindow : Window
     {
 
         var tm = iTimeSlot.Shared.Global.MyTimer;
-        var selected = allTimeSlots[pickerCurrentTimeSlot.SelectedIndex];//todo use safe 
+        var selected = _allTimeSlots[pickerCurrentTimeSlot.SelectedIndex];//todo use safe 
         tm.Init(DateTime.Now, selected, this.ProgressTo, this.DisplayTimeupAlert);
         //update to full before start which will be reset to 0
         //await progressBar.ProgressTo(1, 0, Easing.Default);
@@ -111,13 +111,23 @@ public partial class MainWindow : Window
                      Icon = MsBox.Avalonia.Enums.Icon.Info,
                      WindowStartupLocation = WindowStartupLocation.CenterOwner,
                      CanResize = false,
-                     MaxWidth = 500,
-                     MaxHeight = 800,
+                     MaxWidth = 600,
+                     MaxHeight = 900,
                      SizeToContent = SizeToContent.WidthAndHeight,
                      ShowInCenter = true,
                      Topmost = false,
                  });
              var result = await box.ShowAsync();
+             var args = new RoutedEventArgs();
+             if (result == "Restart")
+             {
+                 OnCancelClickHandler(this, args);
+                 OnStartClickHandler(this, args);
+             }
+             else
+             {
+                 OnCancelClickHandler(this, args);
+             }
          }));
 
     }
