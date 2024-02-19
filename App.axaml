@@ -1,6 +1,8 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="iTimeSlot_avalonia.App"
+             xmlns:vm="using:iTimeSlot_avalonia.ViewModels"
+             x:DataType="vm:ApplicationViewModel"
              xmlns:local="using:iTimeSlot_avalonia"
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
@@ -12,4 +14,30 @@
     <Application.Styles>
         <FluentTheme />
     </Application.Styles>
+  
+     <TrayIcon.Icons>
+         <TrayIcons>
+             <TrayIcon Icon="/Assets/avalonia-logo.ico" 
+                       ToolTipText="Avalonia Tray Icon ToolTip">
+                 <TrayIcon.Menu>
+                     <NativeMenu>
+                         <!-- <NativeMenuItem Header="Settings"> -->
+                         <!--     <NativeMenu> -->
+                         <!--         <NativeMenuItem Header="Option 1"   /> -->
+                         <!--         <NativeMenuItem Header="Option 2"   /> -->
+                         <!--         <NativeMenuItemSeparator /> -->
+                         <!--         <NativeMenuItem Header="Option 3"  /> -->
+                         <!--     </NativeMenu> -->
+                         <!-- </NativeMenuItem> -->
+                         <NativeMenuItem Header="Settings"> </NativeMenuItem>
+                         <NativeMenuItem Header="Show" Command="{Binding ShowWindowCommand}" />
+                         <NativeMenuItemSeparator />
+                         <NativeMenuItem Header="Exit" Command="{Binding ExitCommand }" />
+                     </NativeMenu>
+                 </TrayIcon.Menu>
+                 
+             </TrayIcon>
+         </TrayIcons>
+     </TrayIcon.Icons>
+             
 </Application>
