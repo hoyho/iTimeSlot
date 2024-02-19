@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Avalonia;
@@ -62,7 +63,14 @@ public partial class MainWindow : Window
 
     public void OnStartClickHandler(object sender, RoutedEventArgs args)
     {
-
+        // https://github.com/AvaloniaUI/Avalonia/issues/8076
+        // //get and set tray icon
+        // foreach (var i in TrayIcon.GetIcons(Application.Current).First().Menu.Items)
+        // {
+        //     Console.WriteLine("menu item:"+ i.GetValue(NativeMenu.MenuProperty));
+        // }
+        // TrayIcon.GetIcons(Application.Current).First().Menu.Items.Add(new NativeMenuItem("dynamic"));
+        //     
         var tm = iTimeSlot.Shared.Global.MyTimer;
         var selected = _allTimeSlots[pickerCurrentTimeSlot.SelectedIndex];//todo use safe 
         tm.Init(DateTime.Now, selected, this.ProgressTo, this.DisplayTimeupAlert);

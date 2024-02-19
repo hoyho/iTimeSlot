@@ -17,7 +17,7 @@
 
 
 
-    <TabControl TabStripPlacement="Bottom" HorizontalAlignment="Center" Padding="50" BorderBrush="Black"  >
+    <TabControl TabStripPlacement="Bottom" HorizontalAlignment="Left"  Padding="50" BorderBrush="Black"  >
         <TabItem Header="Slot" >
             <ScrollViewer>
                 <StackPanel Orientation="Vertical" >
