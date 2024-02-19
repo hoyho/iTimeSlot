@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Diagnostics;
 using Avalonia.Interactivity;
+using Avalonia.Markup.Xaml.Templates;
 using Avalonia.Threading;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Dto;
@@ -53,8 +55,8 @@ public partial class MainWindow : Window
             allTimeSlots = iTimeSlot.Shared.DefaultConfig.SysTimeSlots;
         }
 
-        pickerCurrentTimeSlot.DataContext = allTimeSlots[0];
-        pickerCurrentTimeSlot.SelectedTime = allTimeSlots[0];
+        pickerCurrentTimeSlot.ItemsSource = allTimeSlots;
+        pickerCurrentTimeSlot.SelectedIndex = 0;
         //pickerCurrentTimeSlot.SelectedIndex = 0; //todo: load from setting
     }
 
@@ -62,7 +64,7 @@ public partial class MainWindow : Window
     {
 
         var tm = iTimeSlot.Shared.Global.MyTimer;
-        var selected = allTimeSlots[0];
+        var selected = allTimeSlots[pickerCurrentTimeSlot.SelectedIndex];//todo use safe 
         tm.Init(DateTime.Now, selected, this.ProgressTo, this.DisplayTimeupAlert);
         //update to full before start which will be reset to 0
         //await progressBar.ProgressTo(1, 0, Easing.Default);
