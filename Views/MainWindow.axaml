@@ -7,7 +7,7 @@
         x:Class="iTimeSlot_avalonia.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Height="350" Width="450"
+        Height="320" Width="350"
         Title="iTimeSlot_avalonia">
 
     <Design.DataContext>
@@ -18,8 +18,15 @@
 
 
 
-    <TabControl TabStripPlacement="Bottom" HorizontalAlignment="Left"  Padding="50" BorderBrush="Black"  >
-        <TabItem Header="Slot" >
+    <TabControl TabStripPlacement="Bottom" HorizontalAlignment="Left"  Padding="20" BorderBrush="Black"  >
+        <TabItem  >
+            <TabItem.Header>
+                <StackPanel Orientation="Vertical">
+                    <Image Source="/Assets/slot-menu.png" Width="25" Height="25" Margin="0 0 3 0"/>
+                    <TextBlock Text="Slot" />
+                </StackPanel>
+            </TabItem.Header>
+
             <ScrollViewer>
                 <StackPanel Orientation="Vertical" >
                     <Label Content="Current Time Slot:"/>
@@ -43,10 +50,22 @@
             </ScrollViewer>
         </TabItem>
 
-        <TabItem Header="General">
+        <TabItem >
+            <TabItem.Header>
+                <StackPanel Orientation="Vertical">
+                    <Image Source="/Assets/setting-menu.png" Width="25" Height="25" Margin="0 0 3 0"/>
+                    <TextBlock Text="Settings" />
+                </StackPanel>
+            </TabItem.Header>
             <TextBlock Margin="5">This is tab 2 content</TextBlock>
         </TabItem>
-        <TabItem Header="Me">
+        <TabItem >
+            <TabItem.Header>
+                <StackPanel Orientation="Vertical">
+                    <Image Source="/Assets/account-menu.png" Width="25" Height="25" Margin="0 0 3 0"/>
+                    <TextBlock Text="Account" />
+                </StackPanel>
+            </TabItem.Header>
             <TextBlock Margin="5">This is tab 3 content</TextBlock>
         </TabItem>
     </TabControl>
