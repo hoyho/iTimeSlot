@@ -19,9 +19,8 @@ namespace iTimeSlot.Shared
             TimeSpan.FromSeconds(2),
             TimeSpan.FromSeconds(10),
             TimeSpan.FromMinutes(5),
-            TimeSpan.FromMinutes(15),
             TimeSpan.FromMinutes(20),
-            TimeSpan.FromMinutes(30),
+            TimeSpan.FromMinutes(25),
             TimeSpan.FromMinutes(60),
             TimeSpan.FromMinutes(120),
             TimeSpan.FromMinutes(180)
