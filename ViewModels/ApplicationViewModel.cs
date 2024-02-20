@@ -20,6 +20,7 @@ public partial class ApplicationViewModel:ViewModelBase
             if (mainWin != null)
             {
                 mainWin.WindowState = WindowState.Normal;
+                mainWin.Activate();
                 mainWin.Show();
                 mainWin.BringIntoView();
                 mainWin.Focus();    

@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Diagnostics;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml.Templates;
 using Avalonia.Threading;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Dto;
 using MsBox.Avalonia.Enums;
 using MsBox.Avalonia.Models;
+using SkiaSharp;
 
 namespace iTimeSlot_avalonia.Views;
 
@@ -22,11 +20,13 @@ public partial class MainWindow : Window
     List<TimeSpan> _allTimeSlots = new();
 
     static bool _isSetup = false;
+
     public MainWindow()
     {
         InitializeComponent();
         LoadTimeSlots();
     }
+
     private void LoadTimeSlots()
     {
         _allTimeSlots.Clear();
@@ -70,9 +70,9 @@ public partial class MainWindow : Window
         //     Console.WriteLine("menu item:"+ i.GetValue(NativeMenu.MenuProperty));
         // }
         // TrayIcon.GetIcons(Application.Current).First().Menu.Items.Add(new NativeMenuItem("dynamic"));
-        //     
+
         var tm = iTimeSlot.Shared.Global.MyTimer;
-        var selected = _allTimeSlots[pickerCurrentTimeSlot.SelectedIndex];//todo use safe 
+        var selected = _allTimeSlots[pickerCurrentTimeSlot.SelectedIndex]; //todo use safe 
         tm.Init(DateTime.Now, selected, this.ProgressTo, this.DisplayTimeupAlert);
         //update to full before start which will be reset to 0
         //await progressBar.ProgressTo(1, 0, Easing.Default);
@@ -83,12 +83,23 @@ public partial class MainWindow : Window
         StartBtn.IsEnabled = false;
     }
 
-    public void ProgressTo(double val)
+    public void ProgressTo(double percentage)
     {
         Dispatcher.UIThread.Invoke(() =>
         {
             // progressBar.Value = val;
-            progressBar.SetValue(ProgressBar.ValueProperty, val);
+            progressBar.SetValue(ProgressBar.ValueProperty, percentage);
+            
+            
+            var bm = Foundation.Imaging.GenerateTrayIcon(percentage);
+            using (var stream = new MemoryStream())
+            {
+                bm.Encode(stream, SKEncodedImageFormat.Png, 100); // 将 SKBitmap 对象保存为 PNG 格式到流中
+                // 将流的位置重置到起始位置，以便后续读取
+                stream.Position = 0;
+                WindowIcon icon = new WindowIcon(stream);
+                TrayIcon.GetIcons(Application.Current).First().Icon = icon;   
+            }
         });
     }
 
