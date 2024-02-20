@@ -29,15 +29,15 @@ namespace Foundation
                 };
 
                 SKRect rect = new SKRect(0, 0, iconSize, iconSize);
-                SKColor fillColor = SKColors.Black; // 饼状图的填充颜色，可以根据需要调整
+                SKColor fillColor = SKColors.White; // 饼状图的填充颜色，可以根据需要调整
                 paint.Color = fillColor;
                 canvas.DrawOval(rect, paint);
 
                 // 绘制扇形
-                paint.Color = SKColors.White; // 扇形的颜色，可以根据需要调整
+                paint.Color = SKColors.MediumSlateBlue; // 扇形的颜色，可以根据需要调整
 
                 float startAngle = -90; // 从12点钟方向开始
-                float sweepAngle = (float)(360 * percentage / 100);
+                float sweepAngle = (float)(360 * (1-percentage / 100));
                 canvas.DrawArc(rect, startAngle, sweepAngle, true, paint);
 
                 // 生成位图对象
