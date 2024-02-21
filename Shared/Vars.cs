@@ -1,6 +1,5 @@
 using System.Security.Cryptography.X509Certificates;
 using System;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -45,6 +44,10 @@ namespace iTimeSlot.Shared
         {
             return DateTime.Now > EndTime;
         }
+        public bool IsStarted()
+        {
+            return _isStarted;
+        }
 
         public bool Start()
         {
@@ -65,11 +68,13 @@ namespace iTimeSlot.Shared
                         Console.WriteLine("Time up callback");
                         onTimeupCallback?.Invoke();
                         Console.WriteLine("Time up callback done");
+                        Stop();
                         break;
                     }
                     Thread.Sleep(1000);
                     var remainProgess = 100*(EndTime - DateTime.Now).TotalSeconds / Duration.TotalSeconds;
                     ProgessUpdater?.Invoke(remainProgess);
+      
                 }
             });
             return _isStarted;

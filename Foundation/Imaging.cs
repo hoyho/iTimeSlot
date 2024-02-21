@@ -1,4 +1,9 @@
 using System;
+using System.Linq;
+using System.Reflection;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Platform;
 using SkiaSharp;
 
 namespace Foundation
@@ -37,12 +42,26 @@ namespace Foundation
                 paint.Color = SKColors.MediumSlateBlue; // 扇形的颜色，可以根据需要调整
 
                 float startAngle = -90; // 从12点钟方向开始
-                float sweepAngle = (float)(360 * (1-percentage / 100));
+                float sweepAngle = (float)(360 * (1 - percentage / 100));
                 canvas.DrawArc(rect, startAngle, sweepAngle, true, paint);
 
                 // 生成位图对象
                 SKImage image = surface.Snapshot();
                 return SKBitmap.FromImage(image);
+            }
+        }
+
+        public static void ResetTrayIcon()
+        {
+            try
+            {
+                var assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
+                WindowIcon icon = new WindowIcon(AssetLoader.Open(new Uri($"avares://{assemblyName}/Assets/avalonia-logo.ico")));
+                TrayIcon.GetIcons(Application.Current).First().Icon = icon;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
             }
         }
 

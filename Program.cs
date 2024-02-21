@@ -19,5 +19,6 @@ sealed class Program
             .UsePlatformDetect()
             .WithInterFont()
             .LogToTrace()
+            .With(new Win32PlatformOptions { RenderingMode = new[] { Win32RenderingMode.Software } })
             .UseReactiveUI();
 }
