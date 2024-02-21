@@ -1,9 +1,6 @@
-using System.Linq;
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using CommunityToolkit.Mvvm.Input;
 using iTimeSlot_avalonia.ViewModels;
 using iTimeSlot_avalonia.Views;
 

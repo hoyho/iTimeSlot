@@ -9,7 +9,6 @@ using Avalonia.Interactivity;
 using Avalonia.Threading;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Dto;
-using MsBox.Avalonia.Enums;
 using MsBox.Avalonia.Models;
 using SkiaSharp;
 
@@ -19,7 +18,8 @@ public partial class MainWindow : Window
 {
     List<TimeSpan> _allTimeSlots = new();
 
-    static bool _isSetup = false;
+    private DateTime iconLastUpdate = DateTime.MinValue;
+    private object iconLock = new object();
 
     public MainWindow()
     {
@@ -59,6 +59,10 @@ public partial class MainWindow : Window
         pickerCurrentTimeSlot.ItemsSource = _allTimeSlots;
         pickerCurrentTimeSlot.SelectedIndex = 0;
         //pickerCurrentTimeSlot.SelectedIndex = 0; //todo: load from setting
+
+        slots.ItemsSource = _allTimeSlots;
+
+
     }
 
     public void OnStartClickHandler(object sender, RoutedEventArgs args)
@@ -83,23 +87,37 @@ public partial class MainWindow : Window
         StartBtn.IsEnabled = false;
     }
 
-    public void ProgressTo(double percentage)
+    public void ProgressTo(double leftPercentage)
     {
+
         Dispatcher.UIThread.Invoke(() =>
         {
             // progressBar.Value = val;
-            progressBar.SetValue(ProgressBar.ValueProperty, percentage);
-            
-            
-            var bm = Foundation.Imaging.GenerateTrayIcon(percentage);
-            using (var stream = new MemoryStream())
+            progressBar.SetValue(ProgressBar.ValueProperty, leftPercentage);
+            Console.WriteLine("progress: " + (int)  leftPercentage);
+            var almostDone = (int) leftPercentage < 10;
+       
+
+            if (DateTime.Now - iconLastUpdate < TimeSpan.FromSeconds(2) && !almostDone )
             {
-                bm.Encode(stream, SKEncodedImageFormat.Png, 100); // 将 SKBitmap 对象保存为 PNG 格式到流中
-                // 将流的位置重置到起始位置，以便后续读取
-                stream.Position = 0;
-                WindowIcon icon = new WindowIcon(stream);
-                TrayIcon.GetIcons(Application.Current).First().Icon = icon;   
+                return;
             }
+
+
+            lock (iconLock)
+            {
+                var bm = Foundation.Imaging.GenerateTrayIcon(leftPercentage);
+                using (var stream = new MemoryStream())
+                {
+                    bm.Encode(stream, SKEncodedImageFormat.Png, 100); // 将 SKBitmap 对象保存为 PNG 格式到流中
+                                                                      // 将流的位置重置到起始位置，以便后续读取
+                    stream.Position = 0;
+                    WindowIcon icon = new WindowIcon(stream);
+                    TrayIcon.GetIcons(Application.Current).First().Icon = icon;
+                }
+            }
+
+            iconLastUpdate = DateTime.Now;
         });
     }
 
@@ -111,6 +129,12 @@ public partial class MainWindow : Window
         progressBar.IsVisible = false;
         StartBtn.IsEnabled = true;
         pickerCurrentTimeSlot.IsEnabled = true;
+
+        lock (iconLock)
+        {
+            Foundation.Imaging.ResetTrayIcon();
+        }
+
     }
 
     private async void DisplayTimeupAlert()
@@ -140,11 +164,21 @@ public partial class MainWindow : Window
              var args = new RoutedEventArgs();
              if (result == "Restart")
              {
+                Console.WriteLine("Restart");
+                 if (iTimeSlot.Shared.Global.MyTimer.IsStarted())
+                 {
+                     return;
+                 }
                  OnCancelClickHandler(this, args);
                  OnStartClickHandler(this, args);
              }
-             else
+             else if (result == "Ok")
              {
+                Console.WriteLine("Ok");
+                 if (iTimeSlot.Shared.Global.MyTimer.IsStarted())
+                 {
+                     return;
+                 }
                  OnCancelClickHandler(this, args);
              }
          }));

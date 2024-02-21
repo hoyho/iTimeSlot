@@ -3,7 +3,6 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using CommunityToolkit.Mvvm.Input;
-using iTimeSlot_avalonia.Views;
 
 namespace iTimeSlot_avalonia.ViewModels;
 
