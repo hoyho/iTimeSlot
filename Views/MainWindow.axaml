@@ -1,6 +1,7 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:iTimeSlot_avalonia.ViewModels"
+        xmlns:view="using:iTimeSlot_avalonia.Views"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -57,17 +58,29 @@
                     <TextBlock Text="Settings" />
                 </StackPanel>
             </TabItem.Header>
-       
-            <StackPanel Margin="0">
-                <TextBlock Margin="0 5">Choose a slot:</TextBlock>
-                <ListBox x:Name="slots" MaxHeight="125" />
-                
-                <StackPanel  Orientation="Horizontal">
-                    <Button >+</Button>
-                    <Button >-</Button>
-                </StackPanel>
 
-            </StackPanel>
+            <view:SettingTab></view:SettingTab>
+       
+            <!-- <ScrollViewer>
+                <StackPanel Margin="0">
+                    <TextBlock Margin="0 5">Choose a slot:</TextBlock>
+                    <ListBox x:Name="slots" MaxHeight="125" />
+                    
+                    <Border Background="Gainsboro">
+                        <StackPanel  Orientation="Horizontal">
+                            <Button>+</Button>
+                            <Button>-</Button>
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Margin="0 5" >Behavior:</TextBlock>
+                    <StackPanel Margin="20">
+                        <CheckBox>Close without exit</CheckBox>
+                        <CheckBox IsChecked="True">Play sound when timer done</CheckBox>
+                    </StackPanel>
+
+                </StackPanel>
+            </ScrollViewer> -->
         </TabItem>
         <TabItem >
             <TabItem.Header>
