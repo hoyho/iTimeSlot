@@ -60,7 +60,7 @@ public partial class MainWindow : Window
         pickerCurrentTimeSlot.SelectedIndex = 0;
         //pickerCurrentTimeSlot.SelectedIndex = 0; //todo: load from setting
 
-        slots.ItemsSource = _allTimeSlots;
+        //todo slots.ItemsSource = _allTimeSlots;
 
 
     }
