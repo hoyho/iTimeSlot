@@ -344,3 +344,4 @@ MigrationBackup/
 
 .DS_Store
 .idea/
+.idea/*
