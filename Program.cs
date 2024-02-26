@@ -2,7 +2,7 @@
 using Avalonia.ReactiveUI;
 using System;
 
-namespace iTimeSlot_avalonia;
+namespace iTimeSlot;
 
 sealed class Program
 {

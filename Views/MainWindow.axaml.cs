@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
-using Foundation;
+using iTimeSlot.Foundation;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Controls;
 using MsBox.Avalonia.Dto;
@@ -15,7 +15,7 @@ using MsBox.Avalonia.Models;
 using MsBox.Avalonia.ViewModels;
 using MsBox.Avalonia.Windows;
 
-namespace iTimeSlot_avalonia.Views;
+namespace iTimeSlot.Views;
 
 public partial class MainWindow : Window
 {

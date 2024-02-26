@@ -1,7 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace iTimeSlot_avalonia.Views;
+namespace iTimeSlot.Views;
 
 public partial class SettingTab : UserControl
 {

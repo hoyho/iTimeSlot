@@ -1,9 +1,9 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="iTimeSlot_avalonia.App"
-             xmlns:vm="using:iTimeSlot_avalonia.ViewModels"
+             x:Class="iTimeSlot.App"
+             xmlns:vm="using:iTimeSlot.ViewModels"
              x:DataType="vm:ApplicationViewModel"
-             xmlns:local="using:iTimeSlot_avalonia"
+             xmlns:local="using:iTimeSlot"
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 

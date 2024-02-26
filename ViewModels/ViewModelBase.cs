@@ -1,6 +1,6 @@
 ﻿using ReactiveUI;
 
-namespace iTimeSlot_avalonia.ViewModels;
+namespace iTimeSlot.ViewModels;
 
 public class ViewModelBase : ReactiveObject
 {

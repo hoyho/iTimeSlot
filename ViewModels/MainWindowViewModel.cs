@@ -1,6 +1,6 @@
 ﻿
 
-namespace iTimeSlot_avalonia.ViewModels;
+namespace iTimeSlot.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {

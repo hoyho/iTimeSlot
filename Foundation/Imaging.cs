@@ -7,7 +7,7 @@ using Avalonia.Controls;
 using Avalonia.Platform;
 using SkiaSharp;
 
-namespace Foundation
+namespace iTimeSlot.Foundation
 {
 
 

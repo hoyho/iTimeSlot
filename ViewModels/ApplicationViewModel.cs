@@ -4,7 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using CommunityToolkit.Mvvm.Input;
 
-namespace iTimeSlot_avalonia.ViewModels;
+namespace iTimeSlot.ViewModels;
 
 public partial class ApplicationViewModel:ViewModelBase
 {

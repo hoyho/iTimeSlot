@@ -1,10 +1,10 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using iTimeSlot_avalonia.ViewModels;
-using iTimeSlot_avalonia.Views;
+using iTimeSlot.ViewModels;
+using iTimeSlot.Views;
 
-namespace iTimeSlot_avalonia;
+namespace iTimeSlot;
 
 public partial class App : Application
 {

@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/iTimeSlot-avalonia.csproj",
+                "${workspaceFolder}/iTimeSlot.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/iTimeSlot-avalonia.csproj",
+                "${workspaceFolder}/iTimeSlot.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/iTimeSlot-avalonia.csproj"
+                "${workspaceFolder}/iTimeSlot.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

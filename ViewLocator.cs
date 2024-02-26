@@ -1,9 +1,9 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using iTimeSlot_avalonia.ViewModels;
+using iTimeSlot.ViewModels;
 
-namespace iTimeSlot_avalonia;
+namespace iTimeSlot;
 
 public class ViewLocator : IDataTemplate
 {
