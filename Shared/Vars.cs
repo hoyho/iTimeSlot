@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace iTimeSlot.Shared
 {
-    //ProgressBarUpdateDelegate is the delagate func of ProgressBar.ProgressTo as they have identical signature
+    //ProgressBarUpdateDelegate is the delegate func of ProgressBar.ProgressTo as they have identical signature
     public delegate void ProgressBarUpdateDelegate(double value);
 
     public delegate void OnTimeUpDelegate();
@@ -19,12 +19,12 @@ namespace iTimeSlot.Shared
     public class Timer
     {
         public DateTime StartTime { get; set; }
-        public TimeSpan Duration { get; set; }
-        public DateTime EndTime { get; set; }
+        private TimeSpan Duration { get; set; }
+        private DateTime EndTime { get; set; }
 
         // public Func<double, uint, Easing, Task<bool>>? ProgessUpdater;
-        public ProgressBarUpdateDelegate? ProgessUpdater;
-        public OnTimeUpDelegate? onTimeupCallback;
+        private ProgressBarUpdateDelegate? ProgessUpdater;
+        private OnTimeUpDelegate? onTimeupCallback;
 
 
         private bool _isStarted = false;
@@ -35,7 +35,7 @@ namespace iTimeSlot.Shared
             StartTime = startTime;
             Duration = duration;
             EndTime = startTime.Add(duration);
-            Console.WriteLine("start time: " + StartTime, "Duration: " + Duration, "End time: " + EndTime);
+            //Console.WriteLine("start time: " + StartTime, "Duration: " + Duration, "End time: " + EndTime);
             ProgessUpdater = updateFunc;
             onTimeupCallback = onTimeupFunc;
         }
@@ -65,15 +65,15 @@ namespace iTimeSlot.Shared
                 {
                     if (IsTimeUp())
                     {
-                        Console.WriteLine("Time up callback");
+                        //Console.WriteLine("Time up callback");
                         onTimeupCallback?.Invoke();
-                        Console.WriteLine("Time up callback done");
+                        //Console.WriteLine("Time up callback done");
                         Stop();
                         break;
                     }
                     Thread.Sleep(1000);
-                    var remainProgess = 100*(EndTime - DateTime.Now).TotalSeconds / Duration.TotalSeconds;
-                    ProgessUpdater?.Invoke(remainProgess);
+                    var remainProgress = 100*(EndTime - DateTime.Now).TotalSeconds / Duration.TotalSeconds;
+                    ProgessUpdater?.Invoke(remainProgress);
       
                 }
             });
@@ -86,6 +86,8 @@ namespace iTimeSlot.Shared
             {
                 _isStarted = false;
             }
+            ProgessUpdater = null;
+            onTimeupCallback = null;
             return _isStarted;
         }
     }
