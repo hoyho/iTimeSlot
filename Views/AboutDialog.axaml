@@ -1,0 +1,18 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        MaxWidth="400"
+        MaxHeight="475"
+        MinWidth="430"
+        MinHeight="475"
+        Title="About My App"
+        x:Class="iTimeSlot.Views.AboutDialog">
+  <Grid >
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+      <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+        <Rectangle Margin="10" Height="1"  />
+        <TextBlock Text="About" Margin="3" FontSize="14" FontWeight="SemiBold" TextAlignment="Center"  />
+        <TextBlock x:Name="AboutAppInfo" Text="AppInfo" Margin="1" TextAlignment="Center"  />
+        </StackPanel>
+    </StackPanel>
+  </Grid>
+</Window>

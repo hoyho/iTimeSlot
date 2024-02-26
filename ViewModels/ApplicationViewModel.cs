@@ -3,13 +3,14 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using CommunityToolkit.Mvvm.Input;
+using iTimeSlot.Views;
 
 namespace iTimeSlot.ViewModels;
 
-public partial class ApplicationViewModel:ViewModelBase
+public partial class ApplicationViewModel : ViewModelBase
 {
-    
-        
+
+
     [RelayCommand]
     private void ShowWindow()
     {
@@ -22,7 +23,7 @@ public partial class ApplicationViewModel:ViewModelBase
                 mainWin.Activate();
                 mainWin.Show();
                 mainWin.BringIntoView();
-                mainWin.Focus();    
+                mainWin.Focus();
             }
             else
             {
@@ -40,5 +41,15 @@ public partial class ApplicationViewModel:ViewModelBase
         {
             application.Shutdown();
         }
+    }
+
+
+    [RelayCommand]
+    private static async void About()
+    {
+        AboutDialog AboutDialogWindow = new AboutDialog();
+        var mainWindow = (Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+        AboutDialogWindow = new AboutDialog();
+        await AboutDialogWindow.ShowDialog(mainWindow);
     }
 }
