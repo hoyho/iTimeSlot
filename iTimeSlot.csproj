@@ -24,6 +24,7 @@
     <UseAppHost>true</UseAppHost>
     <RuntimeIdentifiers>osx-arm64</RuntimeIdentifiers>
     <CFBundleShortVersionString>1.0</CFBundleShortVersionString>
+    <CFBundleName>iTimeSlot</CFBundleName>
     <CFBundleIconFile>appicon.png</CFBundleIconFile> <!-- Will be copied from output directory -->
   </PropertyGroup>
 
