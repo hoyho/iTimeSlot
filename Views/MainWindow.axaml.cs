@@ -1,16 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text.Json;
-using Avalonia;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
+using Foundation;
 using MsBox.Avalonia;
+using MsBox.Avalonia.Controls;
 using MsBox.Avalonia.Dto;
 using MsBox.Avalonia.Models;
-using SkiaSharp;
+using MsBox.Avalonia.ViewModels;
+using MsBox.Avalonia.Windows;
 
 namespace iTimeSlot_avalonia.Views;
 
@@ -18,20 +21,22 @@ public partial class MainWindow : Window
 {
     List<TimeSpan> _allTimeSlots = new();
 
-    private DateTime iconLastUpdate = DateTime.MinValue;
-    private object iconLock = new object();
+    private DateTime _iconLastUpdate = DateTime.MinValue;
+    private readonly object _iconLock = new object();
+    private readonly TrayHelper _trayHelper;
 
     public MainWindow()
     {
         InitializeComponent();
         LoadTimeSlots();
+        _trayHelper = new TrayHelper();
     }
 
     private void LoadTimeSlots()
     {
         _allTimeSlots.Clear();
 
-        Console.WriteLine("LoadTimeSlots");
+        Debug.WriteLine("LoadTimeSlots");
 
         string dir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         string fileName = Path.Combine(dir, "time_slots.json");
@@ -94,77 +99,72 @@ public partial class MainWindow : Window
         {
             // progressBar.Value = val;
             progressBar.SetValue(ProgressBar.ValueProperty, leftPercentage);
-            Console.WriteLine("progress: " + (int)  leftPercentage);
-            var almostDone = (int) leftPercentage < 10;
-       
+            var almostDone = (int)leftPercentage < 10;
 
-            if (DateTime.Now - iconLastUpdate < TimeSpan.FromSeconds(2) && !almostDone )
+
+            if (DateTime.Now - _iconLastUpdate < TimeSpan.FromSeconds(2) && !almostDone)
             {
                 return;
             }
 
 
-            lock (iconLock)
+            lock (_iconLock)
             {
-                var bm = Foundation.Imaging.GenerateTrayIcon(leftPercentage);
-                using (var stream = new MemoryStream())
-                {
-                    bm.Encode(stream, SKEncodedImageFormat.Png, 100); // 将 SKBitmap 对象保存为 PNG 格式到流中
-                                                                      // 将流的位置重置到起始位置，以便后续读取
-                    stream.Position = 0;
-                    WindowIcon icon = new WindowIcon(stream);
-                    TrayIcon.GetIcons(Application.Current).First().Icon = icon;
-                }
+                _trayHelper.SetPercentageTrayIcon(leftPercentage);
             }
 
-            iconLastUpdate = DateTime.Now;
+            _iconLastUpdate = DateTime.Now;
         });
     }
 
     public void OnCancelClickHandler(object sender, RoutedEventArgs args)
     {
-        var tm = iTimeSlot.Shared.Global.MyTimer;
-        tm.Stop();
-        this.ProgressTo(0);
+        iTimeSlot.Shared.Global.MyTimer.Stop();
+        //this.ProgressTo(0);
         progressBar.IsVisible = false;
         StartBtn.IsEnabled = true;
         pickerCurrentTimeSlot.IsEnabled = true;
 
-        lock (iconLock)
+        lock (_iconLock)
         {
-            Foundation.Imaging.ResetTrayIcon();
+            //potential memory leak here
+            //_trayHelper.ResetTrayIcon();
         }
 
     }
 
     private async void DisplayTimeupAlert()
     {
-        await Dispatcher.UIThread.Invoke((async () =>
+        await Dispatcher.UIThread.Invoke(async () =>
          {
-             var box = MessageBoxManager.GetMessageBoxCustom(
-                 new MessageBoxCustomParams
-                 {
-                     ButtonDefinitions = new List<ButtonDefinition>
-                     {
-                        new ButtonDefinition { Name = "Ok", },
-                        new ButtonDefinition { Name = "Restart", },
-                     },
-                     ContentTitle = "Timer done",
-                     ContentMessage = "Have a break",
-                     Icon = MsBox.Avalonia.Enums.Icon.Info,
-                     WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                     CanResize = false,
-                     MaxWidth = 600,
-                     MaxHeight = 900,
-                     SizeToContent = SizeToContent.WidthAndHeight,
-                     ShowInCenter = true,
-                     Topmost = false,
-                 });
-             var result = await box.ShowAsync();
+
+
+
+            //  var box = MessageBoxManager.GetMessageBoxCustom(
+            //      new MessageBoxCustomParams
+            //      {
+            //          ButtonDefinitions = new List<ButtonDefinition>
+            //          {
+            //             new ButtonDefinition { Name = "Ok", },
+            //             new ButtonDefinition { Name = "Restart", },
+            //          },
+            //          ContentTitle = "Timer done",
+            //          ContentMessage = "Have a break",
+            //          Icon = MsBox.Avalonia.Enums.Icon.Info,
+            //          WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            //          CanResize = false,
+            //          MaxWidth = 600,
+            //          MaxHeight = 900,
+            //          SizeToContent = SizeToContent.WidthAndHeight,
+            //          ShowInCenter = true,
+            //          Topmost = false,
+            //      });
+            //  var result = await box.ShowWindowDialogAsync(this);
+            var box = new AlertBox();
+            var result = await box.ShowAlertAsync();
              var args = new RoutedEventArgs();
              if (result == "Restart")
              {
-                Console.WriteLine("Restart");
                  if (iTimeSlot.Shared.Global.MyTimer.IsStarted())
                  {
                      return;
@@ -174,14 +174,79 @@ public partial class MainWindow : Window
              }
              else if (result == "Ok")
              {
-                Console.WriteLine("Ok");
                  if (iTimeSlot.Shared.Global.MyTimer.IsStarted())
                  {
                      return;
                  }
                  OnCancelClickHandler(this, args);
              }
-         }));
+             //potential memory leak here unless the box is closed rather than ok or restart button clicked
+             box.Close();
+         });
+
+    }
+
+
+    internal class AlertBox
+    {
+        readonly MsBoxWindow window;
+        readonly MsBoxCustomView msBoxCustomView;
+        TaskCompletionSource<string> tcs = new TaskCompletionSource<string>();
+
+        public AlertBox()
+        {
+            var msBoxCustomViewModel = new MsBoxCustomViewModel(new MessageBoxCustomParams
+            {
+                ButtonDefinitions = new List<ButtonDefinition>
+                     {
+                        new ButtonDefinition { Name = "Ok", },
+                        new ButtonDefinition { Name = "Restart", },
+                     },
+                ContentTitle = "Timer done",
+                ContentMessage = "Have a break",
+                Icon = MsBox.Avalonia.Enums.Icon.Info,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                CanResize = false,
+                MaxWidth = 600,
+                MaxHeight = 900,
+                SizeToContent = SizeToContent.WidthAndHeight,
+                ShowInCenter = true,
+                Topmost = false,
+            });
+
+            this.msBoxCustomView = new MsBoxCustomView
+            {
+                DataContext = msBoxCustomViewModel
+            };
+            msBoxCustomViewModel.SetFullApi(msBoxCustomView);
+
+            this.window = new MsBoxWindow
+            {
+                Content = msBoxCustomView,
+                DataContext = msBoxCustomViewModel
+            };
+            window.Closed += msBoxCustomView.CloseWindow;
+            
+            msBoxCustomView.SetCloseAction(() =>
+            {
+                tcs.TrySetResult(msBoxCustomView.GetButtonResult());
+                window.Close();
+            });
+
+        }
+
+
+        public Task<string> ShowAlertAsync()
+        {
+            window.Show();
+            return tcs.Task;
+        }
+
+        public void Close()
+        {
+            msBoxCustomView.CloseWindow(null, null);
+            window.Close();
+        }
 
     }
 
