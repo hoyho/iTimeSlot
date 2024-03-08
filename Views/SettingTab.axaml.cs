@@ -22,13 +22,23 @@ public partial class SettingTab : UserControl
     private void AddTimeBtn_OnClick(object? sender, RoutedEventArgs e)
     {
         var toAdd = this.ToAddNud.Value;
-        if (toAdd > 1)
+        if (toAdd >= 1)
         {
             Shared.Global.ExistTimeSpans.Add(TimeSpan.FromMinutes((int) toAdd));
         }
 
-        //AllSlotsLb.SelectedIndex = Shared.Global.ExistTimeSpans.Count-1;
-        AllSlotsLb.ScrollIntoView(Shared.Global.ExistTimeSpans.Last());
+        int currIdx = Shared.Global.ExistTimeSpans.Count-1;
+        for (int i = 0; i < Shared.Global.ExistTimeSpans.Count; i++)
+        {
+            if (Shared.Global.ExistTimeSpans[i].Minutes == toAdd)
+            {
+                currIdx = i;
+                break;
+            }
+        }
+
+        AllSlotsLb.ScrollIntoView(currIdx);
+        AllSlotsLb.SelectedIndex = currIdx;
         
         Console.WriteLine("add..");
     }
