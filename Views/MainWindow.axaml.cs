@@ -34,7 +34,7 @@ public partial class MainWindow : Window
         vm = new MainWindowViewModel();
         this.DataContext = vm;
         //update index after binding
-        pickerCurrentTimeSlot.SelectedIndex = 0;
+        WorkSpaceTimeSlotCb.SelectedIndex = 0;
 
         
         _trayHelper = new TrayHelper();
@@ -51,14 +51,14 @@ public partial class MainWindow : Window
         // TrayIcon.GetIcons(Application.Current).First().Menu.Items.Add(new NativeMenuItem("dynamic"));
 
         var tm = iTimeSlot.Shared.Global.MyTimer;
-        var selected = Shared.Global.ExistTimeSpans[pickerCurrentTimeSlot.SelectedIndex]; //todo use safe 
+        var selected = Shared.Global.ExistTimeSpans[WorkSpaceTimeSlotCb.SelectedIndex]; //todo use safe 
         tm.Init(DateTime.Now, selected, this.ProgressTo, this.DisplayTimeupAlert);
         //update to full before start which will be reset to 0
         //await progressBar.ProgressTo(1, 0, Easing.Default);
-        progressBar.IsVisible = true;
+        TimeLeftPb.IsVisible = true;
 
         tm.Start();
-        pickerCurrentTimeSlot.IsEnabled = false;
+        WorkSpaceTimeSlotCb.IsEnabled = false;
         StartBtn.IsEnabled = false;
     }
 
@@ -68,7 +68,7 @@ public partial class MainWindow : Window
         Dispatcher.UIThread.Invoke(() =>
         {
             // progressBar.Value = val;
-            progressBar.SetValue(ProgressBar.ValueProperty, leftPercentage);
+            TimeLeftPb.SetValue(ProgressBar.ValueProperty, leftPercentage);
             var almostDone = (int)leftPercentage < 10;
 
 
@@ -91,9 +91,9 @@ public partial class MainWindow : Window
     {
         iTimeSlot.Shared.Global.MyTimer.Stop();
         //this.ProgressTo(0);
-        progressBar.IsVisible = false;
+        TimeLeftPb.IsVisible = false;
         StartBtn.IsEnabled = true;
-        pickerCurrentTimeSlot.IsEnabled = true;
+        WorkSpaceTimeSlotCb.IsEnabled = true;
 
         lock (_iconLock)
         {

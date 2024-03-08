@@ -18,7 +18,7 @@
 
             <Label FontSize="14" FontWeight="Bold" VerticalAlignment="Center">Existing slot:</Label>
             <ScrollViewer>
-                <ListBox x:Name="LbSlots" MaxHeight="125"
+                <ListBox x:Name="AllSlotsLb" MaxHeight="125"
                          ItemsSource="{Binding ExistingTimeSpans}"
                          AutoScrollToSelectedItem="True" >
                     <ListBox.ItemTemplate>
@@ -30,13 +30,13 @@
             </ScrollViewer>
 
 
-            <Label Target="UpDownToAdd" FontSize="14" FontWeight="Bold" VerticalAlignment="Center">Add timespan to slot:</Label>
+            <Label Target="ToAddNud" FontSize="14" FontWeight="Bold" VerticalAlignment="Center">Add timespan to slot:</Label>
             <StackPanel Orientation="Horizontal" Margin="10" >
-                <NumericUpDown Name="UpDownToAdd" ButtonSpinnerLocation="Left" Minimum="1" Maximum="60" Increment="1"
+                <NumericUpDown Name="ToAddNud" ButtonSpinnerLocation="Left" Minimum="1" Maximum="60" Increment="1"
                                VerticalAlignment="Center"
                                Watermark="Edit"/>
                 <Label >                   </Label>
-                <Button x:Name="BtnAddTime" Click="BtnAddTime_OnClick" >Ok</Button>
+                <Button x:Name="AddTimeBtn" Click="AddTimeBtn_OnClick" >Ok</Button>
             </StackPanel>
 
             <TextBlock Margin="0 5" > </TextBlock>

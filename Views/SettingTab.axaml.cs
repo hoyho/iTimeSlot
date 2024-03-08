@@ -1,5 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
@@ -18,16 +19,16 @@ public partial class SettingTab : UserControl
         this.DataContext = vm;
     }
 
-    private void BtnAddTime_OnClick(object? sender, RoutedEventArgs e)
+    private void AddTimeBtn_OnClick(object? sender, RoutedEventArgs e)
     {
-        var toAdd = this.UpDownToAdd.Value;
+        var toAdd = this.ToAddNud.Value;
         if (toAdd > 1)
         {
             Shared.Global.ExistTimeSpans.Add(TimeSpan.FromMinutes((int) toAdd));
         }
 
-        LbSlots.SelectedIndex = Shared.Global.ExistTimeSpans.Count-1;
-        //LbSlots.ScrollIntoView(Shared.Global.ExistTimeSpans.Count-1);
+        //AllSlotsLb.SelectedIndex = Shared.Global.ExistTimeSpans.Count-1;
+        AllSlotsLb.ScrollIntoView(Shared.Global.ExistTimeSpans.Last());
         
         Console.WriteLine("add..");
     }
