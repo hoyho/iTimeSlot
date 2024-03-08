@@ -1,0 +1,38 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:iTimeSlot.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="vm:WorkspaceTabViewModel"
+             x:Class="iTimeSlot.Views.WorkspaceTab">
+             
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:WorkspaceTabViewModel/>
+    </Design.DataContext>
+    
+    <ScrollViewer>
+        <StackPanel Orientation="Vertical" >
+            <Label Content="Current Time Slot:"/>
+
+            <ComboBox x:Name="SelectedTimeSlotCb" SelectedIndex="0"
+                      Width="200" MaxDropDownHeight="300" ItemsSource="{Binding ExistingTimeSpans}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding }" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+                    
+            <ProgressBar x:Name="TimeLeftPb" IsVisible="false" Margin="0 10" Height="20"  Minimum="0" Maximum="100" Value="0" ShowProgressText="True"/>
+
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="StartBtn" Click="OnStartClickHandler">Start</Button>
+                <Button x:Name="CancelBtn" Click="OnCancelClickHandler">Cancel</Button>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+    
+</UserControl>

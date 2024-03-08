@@ -19,8 +19,7 @@
             <Label FontSize="14" FontWeight="Bold" VerticalAlignment="Center">Existing slot:</Label>
             <ScrollViewer>
                 <ListBox x:Name="AllSlotsLb" MaxHeight="125"
-                         ItemsSource="{Binding ExistingTimeSpans}"
-                         AutoScrollToSelectedItem="True" >
+                         ItemsSource="{Binding ExistingTimeSpans}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding  }" />
