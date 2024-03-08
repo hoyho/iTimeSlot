@@ -2,29 +2,50 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:iTimeSlot.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="vm:SettingTabViewModel"
              x:Class="iTimeSlot.Views.SettingTab">
              
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:SettingTabViewModel/>
+    </Design.DataContext>
+    
     <DockPanel>
-        <ScrollViewer>
-            <StackPanel Margin="0">
-                <TextBlock Margin="0 5">Choose a slot:</TextBlock>
-                <ListBox x:Name="slots" MaxHeight="125" />
-                
-                <Border Background="Gainsboro">
-                    <StackPanel  Orientation="Horizontal">
-                        <Button>+</Button>
-                        <Button>-</Button>
-                    </StackPanel>
-                </Border>
+        <StackPanel Margin="0">
 
-                <TextBlock Margin="0 5" >Behavior:</TextBlock>
-                <StackPanel Margin="20">
-                    <CheckBox>Close without exit</CheckBox>
-                    <CheckBox IsChecked="True">Play sound when timer done</CheckBox>
-                </StackPanel>
+            <Label FontSize="14" FontWeight="Bold" VerticalAlignment="Center">Existing slot:</Label>
+            <ScrollViewer>
+                <ListBox x:Name="LbSlots" MaxHeight="125"
+                         ItemsSource="{Binding ExistingTimeSpans}"
+                         AutoScrollToSelectedItem="True" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding  }" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </ScrollViewer>
 
+
+            <Label Target="UpDownToAdd" FontSize="14" FontWeight="Bold" VerticalAlignment="Center">Add timespan to slot:</Label>
+            <StackPanel Orientation="Horizontal" Margin="10" >
+                <NumericUpDown Name="UpDownToAdd" ButtonSpinnerLocation="Left" Minimum="1" Maximum="60" Increment="1"
+                               VerticalAlignment="Center"
+                               Watermark="Edit"/>
+                <Label >                   </Label>
+                <Button x:Name="BtnAddTime" Click="BtnAddTime_OnClick" >Ok</Button>
             </StackPanel>
-        </ScrollViewer>
+
+            <TextBlock Margin="0 5" > </TextBlock>
+            <TextBlock Margin="0 5" >Behavior:</TextBlock>
+            <StackPanel   >
+                <CheckBox>Close without exit</CheckBox>
+                <CheckBox IsChecked="True">Play sound when timer done</CheckBox>
+            </StackPanel>
+
+        </StackPanel>
     </DockPanel>
 </UserControl>

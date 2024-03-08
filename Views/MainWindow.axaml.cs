@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
@@ -8,6 +9,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using iTimeSlot.Foundation;
+using iTimeSlot.ViewModels;
 using MsBox.Avalonia.Controls;
 using MsBox.Avalonia.Dto;
 using MsBox.Avalonia.Models;
@@ -18,7 +20,8 @@ namespace iTimeSlot.Views;
 
 public partial class MainWindow : Window
 {
-    List<TimeSpan> _allTimeSlots = new();
+    //List<TimeSpan> _allTimeSlots = new();
+    private MainWindowViewModel vm;
 
     private DateTime _iconLastUpdate = DateTime.MinValue;
     private readonly object _iconLock = new object();
@@ -27,48 +30,16 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        LoadTimeSlots();
+
+        vm = new MainWindowViewModel();
+        this.DataContext = vm;
+        //update index after binding
+        pickerCurrentTimeSlot.SelectedIndex = 0;
+
+        
         _trayHelper = new TrayHelper();
     }
-
-    private void LoadTimeSlots()
-    {
-        _allTimeSlots.Clear();
-
-        Debug.WriteLine("LoadTimeSlots");
-
-        string dir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        string fileName = Path.Combine(dir, "time_slots.json");
-
-        if (File.Exists(fileName))
-        {
-            try
-            {
-                string jsonString = File.ReadAllText(fileName);
-                Console.WriteLine(jsonString);
-                List<TimeSpan> slots = JsonSerializer.Deserialize<List<TimeSpan>>(jsonString);
-                _allTimeSlots = slots;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-        else
-        {
-            Console.WriteLine("setting.json not found, use default time slots");
-            _allTimeSlots = iTimeSlot.Shared.DefaultConfig.SysTimeSlots;
-        }
-
-        pickerCurrentTimeSlot.ItemsSource = _allTimeSlots;
-        pickerCurrentTimeSlot.SelectedIndex = 0;
-        //pickerCurrentTimeSlot.SelectedIndex = 0; //todo: load from setting
-
-        //todo slots.ItemsSource = _allTimeSlots;
-
-
-    }
-
+    
     public void OnStartClickHandler(object sender, RoutedEventArgs args)
     {
         // https://github.com/AvaloniaUI/Avalonia/issues/8076
@@ -80,7 +51,7 @@ public partial class MainWindow : Window
         // TrayIcon.GetIcons(Application.Current).First().Menu.Items.Add(new NativeMenuItem("dynamic"));
 
         var tm = iTimeSlot.Shared.Global.MyTimer;
-        var selected = _allTimeSlots[pickerCurrentTimeSlot.SelectedIndex]; //todo use safe 
+        var selected = Shared.Global.ExistTimeSpans[pickerCurrentTimeSlot.SelectedIndex]; //todo use safe 
         tm.Init(DateTime.Now, selected, this.ProgressTo, this.DisplayTimeupAlert);
         //update to full before start which will be reset to 0
         //await progressBar.ProgressTo(1, 0, Easing.Default);

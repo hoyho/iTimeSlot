@@ -16,14 +16,11 @@ namespace iTimeSlot.Shared
 
 
         public static List<TimeSpan> SysTimeSlots = new List<TimeSpan>{
-            TimeSpan.FromSeconds(2),
-            TimeSpan.FromSeconds(10),
+            //TimeSpan.FromSeconds(2),
             TimeSpan.FromMinutes(5),
             TimeSpan.FromMinutes(20),
             TimeSpan.FromMinutes(25),
-            TimeSpan.FromMinutes(60),
-            TimeSpan.FromMinutes(120),
-            TimeSpan.FromMinutes(180)
+            TimeSpan.FromMinutes(60)
         };
     }
 

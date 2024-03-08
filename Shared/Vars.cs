@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,6 +14,8 @@ namespace iTimeSlot.Shared
     internal static class Global
     {
         public static Timer MyTimer = new Timer();
+        
+        public static List<TimeSpan> ExistTimeSpans  = new ();
     }
 
     public class Timer
