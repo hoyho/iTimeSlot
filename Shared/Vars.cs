@@ -1,4 +1,3 @@
-using System.Security.Cryptography.X509Certificates;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -69,7 +68,7 @@ namespace iTimeSlot.Shared
                         onTimeupCallback?.Invoke();
                         //Console.WriteLine("Time up callback done");
                         Stop();
-                        break;
+                        return;
                     }
                     Thread.Sleep(1000);
                     var remainProgress = 100*(EndTime - DateTime.Now).TotalSeconds / Duration.TotalSeconds;

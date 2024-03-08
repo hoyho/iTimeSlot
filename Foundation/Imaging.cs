@@ -75,7 +75,7 @@ namespace iTimeSlot.Foundation
 
                 // TrayIcons icons = [icon];
                 // TrayIcon.SetIcons(Application.Current, icons);
-                var assemblyName = "iTimeSlot-avalonia"; // Assembly.GetExecutingAssembly().GetName().Name;
+                var assemblyName = "iTimeSlot"; // Assembly.GetExecutingAssembly().GetName().Name;
                 using var stream = AssetLoader.Open(new Uri($"avares://{assemblyName}/Assets/avalonia-logo.ico"));
                 WindowIcon icon = new WindowIcon(stream);
                 TrayIcon.GetIcons(Application.Current).First().Icon = icon;

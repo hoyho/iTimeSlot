@@ -8,7 +8,6 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using iTimeSlot.Foundation;
-using MsBox.Avalonia;
 using MsBox.Avalonia.Controls;
 using MsBox.Avalonia.Dto;
 using MsBox.Avalonia.Models;
@@ -128,7 +127,7 @@ public partial class MainWindow : Window
         lock (_iconLock)
         {
             //potential memory leak here
-            //_trayHelper.ResetTrayIcon();
+            _trayHelper.ResetTrayIcon();
         }
 
     }
