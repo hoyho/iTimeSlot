@@ -1,8 +1,4 @@
-using System;
 using Avalonia.Controls;
-using Avalonia.Interactivity;
-using iTimeSlot.Models;
-using iTimeSlot.ViewModels;
 
 namespace iTimeSlot.Views;
 

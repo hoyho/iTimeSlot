@@ -19,7 +19,7 @@
 
 
 
-    <TabControl TabStripPlacement="Bottom" HorizontalAlignment="Left"  BorderBrush="Black"  >
+    <TabControl TabStripPlacement="Bottom"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"   BorderBrush="Black"  >
         <TabItem  >
             <TabItem.Header>
                 <StackPanel Orientation="Vertical">
@@ -27,29 +27,41 @@
                     <TextBlock Text="Slot" />
                 </StackPanel>
             </TabItem.Header>
-            <view:WorkspaceTab></view:WorkspaceTab>
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <!-- Your controls go here with auto stretch -->
+                <view:WorkspaceTab></view:WorkspaceTab>
+            </Grid>
             
         </TabItem>
 
         <TabItem >
             <TabItem.Header>
-                <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Vertical" >
                     <Image Source="/Assets/setting-menu.png" Width="25" Height="25" Margin="0 0 3 0"/>
                     <TextBlock Text="Settings" />
                 </StackPanel>
             </TabItem.Header>
 
-            <view:SettingTab></view:SettingTab>
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <!-- Your controls go here with auto stretch -->
+                <view:SettingTab></view:SettingTab>
+            </Grid>
+
             
-        </TabItem>
+        </TabItem >
         <TabItem >
             <TabItem.Header>
-                <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Vertical" >
                     <Image Source="/Assets/account-menu.png" Width="25" Height="25" Margin="0 0 3 0"/>
                     <TextBlock Text="Account" />
                 </StackPanel>
             </TabItem.Header>
-            <TextBlock Margin="5">This is tab 3 content</TextBlock>
+            
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <!-- Your controls go here with auto stretch -->
+                <TextBlock Margin="5">This is tab 3 content</TextBlock>
+            </Grid>
+
         </TabItem>
     </TabControl>
   

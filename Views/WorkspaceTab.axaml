@@ -18,7 +18,7 @@
             <Label Content="Current Time Slot:"/>
 
             <ComboBox x:Name="SelectedTimeSlotCb" SelectedIndex="{Binding IndexOfSelectedTime}"
-                      Width="200" MaxDropDownHeight="300"
+                      Width="150" MaxDropDownHeight="300"
                       ItemsSource="{Binding AllTimeSlots }"
                       >
                 <ComboBox.ItemTemplate>
