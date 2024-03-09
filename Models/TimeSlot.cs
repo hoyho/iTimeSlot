@@ -29,6 +29,11 @@ namespace iTimeSlot.Models
         {
             return _ts;
         }
+
+        public int TotalSeconds()
+        {
+            return (int) _ts.TotalSeconds;
+        }
         
     }
 }

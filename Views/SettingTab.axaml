@@ -23,10 +23,27 @@
                          SelectedIndex="{Binding IndexOfSelectedTime}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding  }" />
-                                <!-- <Button IsEnabled="{Binding !IsSystemPreserved}" >-</Button> -->
-                            </StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                
+                                <TextBlock Grid.Column="0" Text="{Binding }" 
+                                           VerticalAlignment="Center" 
+                                           HorizontalAlignment="Stretch"/>
+
+                                <Button Grid.Column="1"
+                                        IsVisible="{Binding !IsSystemPreserved}" 
+                                        Command="{Binding $parent[ListBox].((vm:MainWindowViewModel)DataContext).DeleteTimeSpan}"
+                                        CommandParameter="{Binding}" 
+                                        Content="×"
+                                        Padding="5 0"
+                                        VerticalAlignment="Center"
+                                        Background="Transparent"
+                                        Foreground="Red">
+                                </Button>
+                            </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>

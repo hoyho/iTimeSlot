@@ -32,6 +32,25 @@ public partial class MainWindowViewModel : ObservableViewModelBase
         set { this.SetProperty(ref _indexOfSelectedTime, value); }
     }
 
+    // public ICommand DeleteCommand { get; }
+    
+    public void DeleteTimeSpan(TimeSlot toDel)
+    {
+        if (toDel.IsSystemPreserved)
+        {
+            Console.WriteLine("timeslot is protected, ignored");
+        }
+        
+        for (int i = 0; i < AllTimeSlots.Count; i++)
+        {
+            if (AllTimeSlots[i].TotalSeconds() == toDel.TotalSeconds())
+            {
+                AllTimeSlots.RemoveAt(i);
+                this.IndexOfSelectedTime = i - 1; //select on previous item
+                return;
+            }
+        }
+    }
     
     public void AddTimeSpan(decimal? toAdd)
     {
