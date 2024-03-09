@@ -42,7 +42,7 @@
                                          Background="Transparent"
                                          Foreground="Red">
                                     <Button.Content>
-                                        <Image Width="20" Height="20" Source="{SvgImage /Assets/close.svg}">
+                                        <Image Width="16" Height="16" Source="avares://iTimeSlot/Assets/delete.png">
                                         </Image>
                                     </Button.Content>
                                 </Button>
