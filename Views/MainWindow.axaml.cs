@@ -19,7 +19,7 @@ public partial class MainWindow : Window
         var ls =  new ObservableCollection<TimeSlot>();
         foreach (var t in Shared.Global.ExistTimeSpans)
         {
-         ls.Add(new TimeSlot(t));   
+         ls.Add(new TimeSlot(t,true));   
         }
         vm.AllTimeSlots = ls;
         this.DataContext = vm;

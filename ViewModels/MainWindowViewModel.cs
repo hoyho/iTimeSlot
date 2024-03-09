@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
-using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using iTimeSlot.Models;
 
 namespace iTimeSlot.ViewModels;
@@ -19,6 +15,51 @@ public partial class MainWindowViewModel : ObservableViewModelBase
         set { SetProperty(ref _slots, value); }
     }
     
+    
+    private decimal? _time2Add ;
+
+    public decimal? TimeToAdd
+    {
+        get { return _time2Add; }
+        set { this.SetProperty(ref _time2Add, value); }
+    }
+    
+    
+    private int _indexOfSelectedTime ;
+    public int IndexOfSelectedTime
+    {
+        get { return _indexOfSelectedTime; }
+        set { this.SetProperty(ref _indexOfSelectedTime, value); }
+    }
+
+    
+    public void AddTimeSpan(decimal? toAdd)
+    {
+        
+        if (toAdd ==null || toAdd <= 1)
+        {
+            Console.WriteLine("illegal toAdd value ignored");
+            return;
+        }
+        var toAddInt = (int)toAdd;
+        
+        AllTimeSlots.Add(new TimeSlot(toAddInt,false));
+        TimeToAdd = null;//reset the view
+        
+        int currIdx = AllTimeSlots.Count -1;
+        for (int i = 0; i < AllTimeSlots.Count; i++)
+        {
+            if ((int)AllTimeSlots[i].ToTimeSpan().TotalMinutes == toAddInt)
+            {
+                currIdx = i;
+                break;
+            }
+            
+        }
+        
+        IndexOfSelectedTime = currIdx;
+        Console.WriteLine($"{toAdd} added..");
+    }
     
 }
 

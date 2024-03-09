@@ -19,10 +19,14 @@
             <Label FontSize="14" FontWeight="Bold" VerticalAlignment="Center">Existing slot:</Label>
             <ScrollViewer>
                 <ListBox x:Name="AllSlotsLb" MaxHeight="125"
-                         ItemsSource="{Binding AllTimeSlots}">
+                         ItemsSource="{Binding AllTimeSlots}"
+                         SelectedIndex="{Binding IndexOfSelectedTime}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding  }" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding  }" />
+                                <!-- <Button IsEnabled="{Binding !IsSystemPreserved}" >-</Button> -->
+                            </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
@@ -34,9 +38,13 @@
             <StackPanel Orientation="Horizontal" Margin="10" >
                 <NumericUpDown Name="ToAddNud" ButtonSpinnerLocation="Left" Minimum="1" Maximum="60" Increment="1"
                                VerticalAlignment="Center"
-                               Watermark="Edit Me"/>
+                               Watermark="Edit Me"
+                               Value="{Binding TimeToAdd}"
+                               />
                 <Label >                   </Label>
-                <Button x:Name="AddTimeBtn" Click="AddTimeBtn_OnClick" >Ok</Button>
+                <Button x:Name="AddTimeBtn"
+                        Command="{Binding AddTimeSpan}"
+                        CommandParameter="{Binding TimeToAdd}" >Ok</Button>
             </StackPanel>
 
             <TextBlock Margin="0 5" > </TextBlock>

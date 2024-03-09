@@ -5,14 +5,17 @@ namespace iTimeSlot.Models
 {
     public class TimeSlot: ObservableObject
     {
+        public bool IsSystemPreserved {get; set; }
+        
         private TimeSpan _ts;
         
-        public TimeSlot(TimeSpan srcTs)
+        public TimeSlot(TimeSpan srcTs, bool isSystemPreserved=false)
         {
             this._ts = srcTs;
+            IsSystemPreserved = isSystemPreserved;
         }
 
-        public TimeSlot(int minute) : this(TimeSpan.FromMinutes(minute))
+        public TimeSlot(int minute, bool isSystemPreserved=false) : this(TimeSpan.FromMinutes(minute),isSystemPreserved)
         {
             
         }
