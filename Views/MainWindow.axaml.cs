@@ -1,6 +1,7 @@
-using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Avalonia.Controls;
-using iTimeSlot.Foundation;
+using iTimeSlot.Models;
 using iTimeSlot.ViewModels;
 
 namespace iTimeSlot.Views;
@@ -15,8 +16,13 @@ public partial class MainWindow : Window
         InitializeComponent();
 
         vm = new MainWindowViewModel();
+        var ls =  new ObservableCollection<TimeSlot>();
+        foreach (var t in Shared.Global.ExistTimeSpans)
+        {
+         ls.Add(new TimeSlot(t));   
+        }
+        vm.AllTimeSlots = ls;
         this.DataContext = vm;
-        //update index after binding
     }
 
 }

@@ -4,13 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:iTimeSlot.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:DataType="vm:SettingTabViewModel"
+             x:DataType="vm:MainWindowViewModel"
              x:Class="iTimeSlot.Views.SettingTab">
              
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:SettingTabViewModel/>
+        <vm:MainWindowViewModel/>
     </Design.DataContext>
     
     <DockPanel>
@@ -19,7 +19,7 @@
             <Label FontSize="14" FontWeight="Bold" VerticalAlignment="Center">Existing slot:</Label>
             <ScrollViewer>
                 <ListBox x:Name="AllSlotsLb" MaxHeight="125"
-                         ItemsSource="{Binding ExistingTimeSpans}">
+                         ItemsSource="{Binding AllTimeSlots}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding  }" />
@@ -29,11 +29,12 @@
             </ScrollViewer>
 
 
-            <Label Target="ToAddNud" FontSize="14" FontWeight="Bold" VerticalAlignment="Center">Add timespan to slot:</Label>
+            <Label Target="ToAddNud" FontSize="14" 
+                   FontWeight="Bold" VerticalAlignment="Center">Add minute(s) to slot:</Label>
             <StackPanel Orientation="Horizontal" Margin="10" >
                 <NumericUpDown Name="ToAddNud" ButtonSpinnerLocation="Left" Minimum="1" Maximum="60" Increment="1"
                                VerticalAlignment="Center"
-                               Watermark="Edit"/>
+                               Watermark="Edit Me"/>
                 <Label >                   </Label>
                 <Button x:Name="AddTimeBtn" Click="AddTimeBtn_OnClick" >Ok</Button>
             </StackPanel>

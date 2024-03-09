@@ -1,9 +1,25 @@
-﻿namespace iTimeSlot.ViewModels;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
+using Avalonia.Controls;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using iTimeSlot.Models;
 
-public class MainWindowViewModel : ViewModelBase
+namespace iTimeSlot.ViewModels;
+
+public partial class MainWindowViewModel : ObservableViewModelBase
 {
-#pragma warning disable CA1822 // Mark members as static
-    public string Greeting => "Welcome to Avalonia!";
-#pragma warning restore CA1822 // Mark members as static
 
+    private ObservableCollection<TimeSlot> _slots;
+    public ObservableCollection<TimeSlot> AllTimeSlots
+    {
+        get { return _slots; }
+        set { SetProperty(ref _slots, value); }
+    }
+    
+    
 }
+
+public class ObservableViewModelBase : ObservableObject;

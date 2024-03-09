@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using iTimeSlot.Foundation;
+using iTimeSlot.Models;
 using iTimeSlot.ViewModels;
 using MsBox.Avalonia.Controls;
 using MsBox.Avalonia.Dto;
@@ -21,17 +22,12 @@ public partial class WorkspaceTab : UserControl
     private readonly object _iconLock = new object();
     private readonly TrayHelper _trayHelper;
     
-    private WorkspaceTabViewModel vm;
     
     public WorkspaceTab()
     {
         InitializeComponent();
         
-        vm = new WorkspaceTabViewModel();
-        this.DataContext = vm;
-        
         _trayHelper = new TrayHelper();
-        SelectedTimeSlotCb.SelectedIndex = 0;
     }
     
         
@@ -45,9 +41,10 @@ public partial class WorkspaceTab : UserControl
         // }
         // TrayIcon.GetIcons(Application.Current).First().Menu.Items.Add(new NativeMenuItem("dynamic"));
 
-        var tm = iTimeSlot.Shared.Global.MyTimer;
-        var selected = Shared.Global.ExistTimeSpans[SelectedTimeSlotCb.SelectedIndex]; //todo use safe 
-        tm.Init(DateTime.Now, selected, this.ProgressTo, this.DisplayTimeupAlert);
+        var tm = Shared.Global.MyTimer;
+        var selected = SelectedTimeSlotCb.SelectedItem as TimeSlot;
+        
+        tm.Init(DateTime.Now, selected.ToTimeSpan(), this.ProgressTo, this.DisplayTimeupAlert);
         //update to full before start which will be reset to 0
         //await progressBar.ProgressTo(1, 0, Easing.Default);
         TimeLeftPb.IsVisible = true;
@@ -214,7 +211,5 @@ public partial class WorkspaceTab : UserControl
         }
 
     }
-
-
-
+    
 }

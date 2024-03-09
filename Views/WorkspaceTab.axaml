@@ -4,13 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:iTimeSlot.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:DataType="vm:WorkspaceTabViewModel"
+             x:DataType="vm:MainWindowViewModel"
              x:Class="iTimeSlot.Views.WorkspaceTab">
              
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:WorkspaceTabViewModel/>
+        <vm:MainWindowViewModel/>
     </Design.DataContext>
     
     <ScrollViewer>
@@ -18,9 +18,11 @@
             <Label Content="Current Time Slot:"/>
 
             <ComboBox x:Name="SelectedTimeSlotCb" SelectedIndex="0"
-                      Width="200" MaxDropDownHeight="300" ItemsSource="{Binding ExistingTimeSpans}">
+                      Width="200" MaxDropDownHeight="300"
+                      ItemsSource="{Binding AllTimeSlots }"
+                      >
                 <ComboBox.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate >
                         <TextBlock Text="{Binding }" />
                     </DataTemplate>
                 </ComboBox.ItemTemplate>

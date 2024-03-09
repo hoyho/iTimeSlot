@@ -1,45 +1,41 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using iTimeSlot.Models;
 using iTimeSlot.ViewModels;
 
 namespace iTimeSlot.Views;
 
 public partial class SettingTab : UserControl
 {
-    private SettingTabViewModel vm;
-    
     public SettingTab()
     {
         InitializeComponent();
-        vm = new SettingTabViewModel();
-        this.DataContext = vm;
     }
 
     private void AddTimeBtn_OnClick(object? sender, RoutedEventArgs e)
     {
+        var vm = this.DataContext as MainWindowViewModel;
+        if (vm == null)
+        {
+            Console.WriteLine("---data context is not MainWindows View Model---");
+        }
+        
         var toAdd = this.ToAddNud.Value;
         if (toAdd >= 1)
         {
-            Shared.Global.ExistTimeSpans.Add(TimeSpan.FromMinutes((int) toAdd));
+            vm.AllTimeSlots.Add(new TimeSlot((int) toAdd));
         }
-
-        int currIdx = Shared.Global.ExistTimeSpans.Count-1;
-        for (int i = 0; i < Shared.Global.ExistTimeSpans.Count; i++)
-        {
-            if (Shared.Global.ExistTimeSpans[i].Minutes == toAdd)
-            {
-                currIdx = i;
-                break;
-            }
-        }
-
+        
+        int currIdx = vm.AllTimeSlots.Count -1;
+        
         AllSlotsLb.ScrollIntoView(currIdx);
         AllSlotsLb.SelectedIndex = currIdx;
         
-        Console.WriteLine("add..");
+        Console.WriteLine($"{toAdd} added..");
     }
 }
