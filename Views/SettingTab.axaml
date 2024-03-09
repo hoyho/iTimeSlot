@@ -33,15 +33,18 @@
                                            VerticalAlignment="Center" 
                                            HorizontalAlignment="Stretch"/>
 
-                                <Button Grid.Column="1"
-                                        IsVisible="{Binding !IsSystemPreserved}" 
-                                        Command="{Binding $parent[ListBox].((vm:MainWindowViewModel)DataContext).DeleteTimeSpan}"
-                                        CommandParameter="{Binding}" 
-                                        Content="×"
-                                        Padding="5 0"
-                                        VerticalAlignment="Center"
-                                        Background="Transparent"
-                                        Foreground="Red">
+                                <Button  Grid.Column="1"
+                                         IsVisible="{Binding !IsSystemPreserved}" 
+                                         Command="{Binding $parent[ListBox].((vm:MainWindowViewModel)DataContext).DeleteTimeSpan}"
+                                         CommandParameter="{Binding}" 
+                                         Padding="1 0"
+                                         VerticalAlignment="Center"
+                                         Background="Transparent"
+                                         Foreground="Red">
+                                    <Button.Content>
+                                        <Image Width="20" Height="20" Source="{SvgImage /Assets/close.svg}">
+                                        </Image>
+                                    </Button.Content>
                                 </Button>
                             </Grid>
                         </DataTemplate>
