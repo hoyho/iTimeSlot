@@ -17,7 +17,7 @@
         <StackPanel Orientation="Vertical" >
             <Label Content="Current Time Slot:"/>
 
-            <ComboBox x:Name="SelectedTimeSlotCb" SelectedIndex="{Binding IndexOfSelectedTime}"
+            <ComboBox x:Name="SelectedTimeSlotCb" SelectedIndex="{Binding IndexOfSelectedTimeInWorkspace}"
                       Width="150" MaxDropDownHeight="300"
                       ItemsSource="{Binding AllTimeSlots }"
                       >

@@ -24,9 +24,10 @@ public partial class MainWindowViewModel : ObservableViewModelBase
         set { this.SetProperty(ref _time2Add, value); }
     }
     
+    public int IndexOfSelectedTimeInWorkspace { get; set; }
     
     private int _indexOfSelectedTime ;
-    public int IndexOfSelectedTime
+    public int IndexOfSelectedTimeInSetting
     {
         get { return _indexOfSelectedTime; }
         set { this.SetProperty(ref _indexOfSelectedTime, value); }
@@ -46,7 +47,7 @@ public partial class MainWindowViewModel : ObservableViewModelBase
             if (AllTimeSlots[i].TotalSeconds() == toDel.TotalSeconds())
             {
                 AllTimeSlots.RemoveAt(i);
-                this.IndexOfSelectedTime = i - 1; //select on previous item
+                this.IndexOfSelectedTimeInSetting = i - 1; //select on previous item
                 return;
             }
         }
@@ -55,7 +56,7 @@ public partial class MainWindowViewModel : ObservableViewModelBase
     public void AddTimeSpan(decimal? toAdd)
     {
         
-        if (toAdd ==null || toAdd <= 1)
+        if (toAdd ==null || toAdd < 1)
         {
             Console.WriteLine("illegal toAdd value ignored");
             return;
@@ -76,7 +77,10 @@ public partial class MainWindowViewModel : ObservableViewModelBase
             
         }
         
-        IndexOfSelectedTime = currIdx;
+        IndexOfSelectedTimeInSetting = currIdx;
+        if(!Shared.Global.MyTimer.IsStarted()){
+            IndexOfSelectedTimeInWorkspace = currIdx;
+        }
         Console.WriteLine($"{toAdd} added..");
     }
     

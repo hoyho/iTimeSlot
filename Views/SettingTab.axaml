@@ -20,7 +20,7 @@
             <ScrollViewer>
                 <ListBox x:Name="AllSlotsLb" MaxHeight="125"
                          ItemsSource="{Binding AllTimeSlots}"
-                         SelectedIndex="{Binding IndexOfSelectedTime}">
+                         SelectedIndex="{Binding IndexOfSelectedTimeInSetting}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid>

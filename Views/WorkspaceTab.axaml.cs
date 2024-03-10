@@ -47,6 +47,7 @@ public partial class WorkspaceTab : UserControl
         tm.Init(DateTime.Now, selected.ToTimeSpan(), this.ProgressTo, this.DisplayTimeupAlert);
         //update to full before start which will be reset to 0
         //await progressBar.ProgressTo(1, 0, Easing.Default);
+        ProgressTo(100);
         TimeLeftPb.IsVisible = true;
 
         tm.Start();
