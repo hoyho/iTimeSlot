@@ -1,4 +1,5 @@
 using System;
+using System.Text.Json.Serialization;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace iTimeSlot.Models
@@ -8,6 +9,21 @@ namespace iTimeSlot.Models
         public bool IsSystemPreserved {get; set; }
         
         private TimeSpan _ts;
+        
+        [JsonPropertyName("TimeSpan")]
+        public TimeSpan Ts
+        {
+            get { return _ts; }
+            set { _ts = value; }
+        }
+
+        
+        //keep this public parameterless constructor for json serialization and deserialization
+        [JsonConstructor]
+        public TimeSlot()
+        {
+            
+        }
         
         public TimeSlot(TimeSpan srcTs, bool isSystemPreserved=false)
         {

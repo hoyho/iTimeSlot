@@ -22,6 +22,9 @@ namespace iTimeSlot.Shared
             TimeSpan.FromMinutes(25),
             TimeSpan.FromMinutes(60)
         };
+
+        public static bool SysCloseWithoutExit = true;
+        public static bool SysPlaySound = false;
     }
 
 }

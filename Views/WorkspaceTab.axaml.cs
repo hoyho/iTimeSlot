@@ -53,6 +53,11 @@ public partial class WorkspaceTab : UserControl
         tm.Start();
         SelectedTimeSlotCb.IsEnabled = false;
         StartBtn.IsEnabled = false;
+
+        if (DataContext is MainWindowViewModel ctx)
+        {
+            ctx.SyncSettings();
+        }
     }
 
     public void ProgressTo(double leftPercentage)

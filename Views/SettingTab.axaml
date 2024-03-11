@@ -70,8 +70,12 @@
             <TextBlock Margin="0 5" > </TextBlock>
             <TextBlock Margin="0 5" >Behavior:</TextBlock>
             <StackPanel   >
-                <CheckBox>Close without exit</CheckBox>
-                <CheckBox IsChecked="True">Play sound when timer done</CheckBox>
+                <CheckBox IsChecked="{Binding CloseWithoutExit}"
+                          Command="{Binding SyncSettings}"
+                          >Close without exit</CheckBox>
+                <CheckBox IsChecked="{Binding PlaySound}"
+                          Command="{Binding SyncSettings}"
+                          >Play sound when timer done</CheckBox>
             </StackPanel>
 
         </StackPanel>

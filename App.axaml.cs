@@ -1,11 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using iTimeSlot.Models;
+using iTimeSlot.Shared;
 using iTimeSlot.ViewModels;
 using iTimeSlot.Views;
 
@@ -39,29 +40,34 @@ public partial class App : Application
     private void LoadTimeSlots()
     {
         
-        Debug.WriteLine("LoadTimeSlots");
 
-        string dir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        string fileName = Path.Combine(dir, "time_slots.json");
-
+        
+        string fileName = Global.ConfigPath;        
+        Debug.WriteLine($"LoadTimeSlots from {fileName}");
+        
         if (File.Exists(fileName))
         {
             try
             {
                 string jsonString = File.ReadAllText(fileName);
                 Console.WriteLine(jsonString);
-                List<TimeSpan> slots = JsonSerializer.Deserialize<List<TimeSpan>>(jsonString);
-                Shared.Global.ExistTimeSpans = slots;
+                
+                var settings = JsonSerializer.Deserialize(jsonString,new JsonContext().Settings);
+                Global.LoaddedSetting = settings;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                var settings = Global.EnsureDefaultConfigFile();
+                Global.LoaddedSetting = settings;
             }
         }
         else
         {
             Console.WriteLine("setting.json not found, use default time slots");
-            Shared.Global.ExistTimeSpans = iTimeSlot.Shared.DefaultConfig.SysTimeSlots;
+            var settings = Global.EnsureDefaultConfigFile();
+            Global.LoaddedSetting = settings;
+
         }
         
     }
