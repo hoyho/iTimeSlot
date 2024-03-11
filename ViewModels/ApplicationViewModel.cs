@@ -12,7 +12,7 @@ public partial class ApplicationViewModel : ViewModelBase
 
 
     [RelayCommand]
-    private void ShowWindow()
+    private static void ShowWindow()
     {
         if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
@@ -50,6 +50,8 @@ public partial class ApplicationViewModel : ViewModelBase
         AboutDialog AboutDialogWindow = new AboutDialog();
         var mainWindow = (Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
         AboutDialogWindow = new AboutDialog();
+        
+        ShowWindow();
         await AboutDialogWindow.ShowDialog(mainWindow);
     }
 }
