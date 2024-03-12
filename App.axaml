@@ -24,8 +24,8 @@
   
      <TrayIcon.Icons>
          <TrayIcons>
-             <TrayIcon Icon="/Assets/avalonia-logo.ico" 
-                       ToolTipText="Avalonia Tray Icon ToolTip">
+             <TrayIcon Icon="/Assets/tray-icon.png" 
+                       ToolTipText="iTimeSlot Tray Icon ToolTip">
                  <TrayIcon.Menu>
                      <NativeMenu>
                          <!-- <NativeMenuItem Header="Settings"> -->
