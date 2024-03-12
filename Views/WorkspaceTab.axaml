@@ -31,8 +31,30 @@
             <ProgressBar x:Name="TimeLeftPb" IsVisible="false" Margin="0 10" Height="20"  Minimum="0" Maximum="100" Value="0" ShowProgressText="True"/>
 
             <StackPanel Orientation="Horizontal">
-                <Button x:Name="StartBtn" Click="OnStartClickHandler">Start</Button>
-                <Button x:Name="CancelBtn" Click="OnCancelClickHandler">Cancel</Button>
+                <Button x:Name="StartBtn" Click="OnStartClickHandler" Margin="0 5 0 0" Padding="8" >
+                    Start
+                    <Button.Styles>
+                        <Style Selector="Button">
+                            <Setter Property="Background" Value="CornflowerBlue"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="BorderBrush" Value="White"/>
+                            <Setter Property="FontSize" Value="14"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                        </Style>
+                    </Button.Styles>
+                </Button>
+                <Button x:Name="CancelBtn" Click="OnCancelClickHandler" Margin="5 5 0 0" Padding="8" >
+                    Cancel
+                    <Button.Styles>
+                        <Style Selector="Button">
+                            <Setter Property="Background" Value="White"/>
+                            <Setter Property="BorderBrush" Value="SlateGray"/>
+                            <Setter Property="FontSize" Value="14"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                        </Style>
+
+                    </Button.Styles>
+                </Button>
             </StackPanel>
         </StackPanel>
     </ScrollViewer>
