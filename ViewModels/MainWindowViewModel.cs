@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Avalonia.Controls.Notifications;
 using CommunityToolkit.Mvvm.ComponentModel;
 using iTimeSlot.Models;
 using iTimeSlot.Shared;
@@ -42,6 +43,8 @@ public partial class MainWindowViewModel : ObservableViewModelBase
         get { return _indexOfTimeInSetting; }
         set { this.SetProperty(ref _indexOfTimeInSetting, value); }
     }
+    
+    public WindowNotificationManager? SettingTabNotificationManager { get; set; }
 
     public bool CloseWithoutExit { get; set; }
     public bool PlaySound { get; set; }
@@ -52,6 +55,15 @@ public partial class MainWindowViewModel : ObservableViewModelBase
         {
             Console.WriteLine("timeslot is protected, ignored");
         }
+        //todo make it more reliable
+        //    if (AllTimeSlots[_indexOfTimeInWorkspace].ToTimeSpan() == toDel.ToTimeSpan())
+        if (Global.MyTimer.IsStarted() && Global.MyTimer.Duration == toDel.ToTimeSpan())
+        {
+            var msg = new Notification("operation not permitted", "the time slot is being used", NotificationType.Warning,
+                TimeSpan.FromSeconds(3));
+            this.SettingTabNotificationManager?.Show(msg);
+            return;
+        }
         
         for (int i = 0; i < AllTimeSlots.Count; i++)
         {
@@ -59,6 +71,14 @@ public partial class MainWindowViewModel : ObservableViewModelBase
             {
                 AllTimeSlots.RemoveAt(i);
                 this.IndexOfSelectedTimeInSetting = i - 1; //select on previous item
+                
+                //if working space combo box has nothing selected
+                if (IndexOfSelectedTimeInWorkspace > AllTimeSlots.Count - 1 || IndexOfSelectedTimeInWorkspace < 0)
+                {
+                    //workspace selected item is ok to update because a working item will not be deleted 
+                    IndexOfSelectedTimeInWorkspace = AllTimeSlots.Count - 1;   
+                }
+                
                 SyncSettings();
                 return;
             }

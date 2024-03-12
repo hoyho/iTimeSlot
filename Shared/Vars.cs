@@ -46,7 +46,7 @@ namespace iTimeSlot.Shared
     public class Timer
     {
         public DateTime StartTime { get; set; }
-        private TimeSpan Duration { get; set; }
+        public TimeSpan Duration { get; set; }
         private DateTime EndTime { get; set; }
 
         // public Func<double, uint, Easing, Task<bool>>? ProgessUpdater;

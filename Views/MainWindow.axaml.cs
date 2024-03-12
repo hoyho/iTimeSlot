@@ -1,5 +1,7 @@
 using System.ComponentModel;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Notifications;
 using iTimeSlot.Shared;
 using iTimeSlot.ViewModels;
 
