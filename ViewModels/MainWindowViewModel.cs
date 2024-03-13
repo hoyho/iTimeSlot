@@ -54,6 +54,7 @@ public partial class MainWindowViewModel : ObservableViewModelBase
         if (toDel.IsSystemPreserved)
         {
             Console.WriteLine("timeslot is protected, ignored");
+            return;
         }
         //todo make it more reliable
         //    if (AllTimeSlots[_indexOfTimeInWorkspace].ToTimeSpan() == toDel.ToTimeSpan())
@@ -69,6 +70,10 @@ public partial class MainWindowViewModel : ObservableViewModelBase
         {
             if (AllTimeSlots[i].TotalSeconds() == toDel.TotalSeconds())
             {
+                if (AllTimeSlots[i].IsSystemPreserved) //double check to prevent built-in item not being removed
+                {
+                    continue;
+                }
                 AllTimeSlots.RemoveAt(i);
                 this.IndexOfSelectedTimeInSetting = i - 1; //select on previous item
                 
@@ -95,6 +100,15 @@ public partial class MainWindowViewModel : ObservableViewModelBase
         }
         var toAddInt = (int)toAdd;
         
+        
+        foreach (var ts in AllTimeSlots)
+        {
+            if (ts.TotalSeconds() == toAddInt)
+            {
+                Console.WriteLine("repeated item will be ignored");
+                return;
+            }   
+        }
         AllTimeSlots.Add(new TimeSlot(toAddInt,false));
         TimeToAdd = null;//reset the view
         SyncSettings();
