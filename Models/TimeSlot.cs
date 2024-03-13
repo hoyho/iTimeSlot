@@ -38,7 +38,7 @@ namespace iTimeSlot.Models
 
         public override string ToString()
         {
-            return  $"{(int) _ts.TotalMinutes} min";
+            return  $"{(int) _ts.TotalMinutes} min".TrimEnd();
         }
 
         public TimeSpan ToTimeSpan()

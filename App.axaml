@@ -4,16 +4,16 @@
              xmlns:vm="using:iTimeSlot.ViewModels"
              x:DataType="vm:ApplicationViewModel"
              xmlns:local="using:iTimeSlot"
-             RequestedThemeVariant="Default"
+             xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
              Name="iTimeSlot app" >
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
-
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
   
     <Application.Styles>
-        <FluentTheme />
+        <themes:MaterialTheme BaseTheme="Light" PrimaryColor="Purple" SecondaryColor="Lime" />
+        <!-- <FluentTheme /> -->
     </Application.Styles>
     
     <NativeMenu.Menu>

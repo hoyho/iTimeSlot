@@ -15,56 +15,53 @@
     
     <DockPanel>
         <StackPanel Margin="0">
-
             <Label FontSize="14" FontWeight="Bold" VerticalAlignment="Center">Existing slot:</Label>
             <ScrollViewer>
-                <ListBox x:Name="AllSlotsLb" MaxHeight="125"
-                         ItemsSource="{Binding AllTimeSlots}"
-                         SelectedIndex="{Binding IndexOfSelectedTimeInSetting}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                
-                                <TextBlock Grid.Column="0" Text="{Binding }" 
-                                           VerticalAlignment="Center" 
-                                           HorizontalAlignment="Stretch"/>
+              <ListBox x:Name="AllSlotsLb" MaxHeight="125" BorderBrush="Gainsboro" BorderThickness="1"
+                     ItemsSource="{Binding AllTimeSlots}"
+                     SelectedIndex="{Binding IndexOfSelectedTimeInSetting}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+            
+                            <TextBlock Grid.Column="0" Text="{Binding }" 
+                                       VerticalAlignment="Center" 
+                                       HorizontalAlignment="Stretch"/>
 
-                                <Button  Grid.Column="1"
-                                         IsVisible="{Binding !IsSystemPreserved}" 
-                                         Command="{Binding $parent[ListBox].((vm:MainWindowViewModel)DataContext).DeleteTimeSpan}"
-                                         CommandParameter="{Binding}" 
-                                         Padding="1 0"
-                                         VerticalAlignment="Center"
-                                         Background="Transparent"
-                                         Foreground="Red">
-                                    <Button.Content>
-                                        <Image Width="16" Height="16" Source="avares://iTimeSlot/Assets/delete.png">
-                                        </Image>
-                                    </Button.Content>
-                                    <!-- <Button.Flyout > -->
-                                    <!--     <Flyout ShowMode="TransientWithDismissOnPointerMoveAway">This timeslot is being used!</Flyout> -->
-                                    <!-- </Button.Flyout> -->
-                                </Button>
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                            <Button  Grid.Column="1"
+                                     IsVisible="{Binding !IsSystemPreserved}" 
+                                     Command="{Binding $parent[ListBox].((vm:MainWindowViewModel)DataContext).DeleteTimeSpan}"
+                                     CommandParameter="{Binding}" 
+                                     Padding="1 0"
+                                     VerticalAlignment="Center"
+                                     Background="Transparent"
+                                     Foreground="Red">
+                                <Button.Content>
+                                    <Image Width="16" Height="16" Source="avares://iTimeSlot/Assets/delete.png">
+                                    </Image>
+                                </Button.Content>
+                                <!-- <Button.Flyout > -->
+                                <!--     <Flyout ShowMode="TransientWithDismissOnPointerMoveAway">This timeslot is being used!</Flyout> -->
+                                <!-- </Button.Flyout> -->
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
             </ScrollViewer>
 
 
             <Label Target="ToAddNud" FontSize="14" 
                    FontWeight="Bold" VerticalAlignment="Center">Add minute(s) to slot:</Label>
-            <StackPanel Orientation="Horizontal" Margin="10" >
+            <StackPanel Orientation="Horizontal" Height="38" >
                 <NumericUpDown Name="ToAddNud" ButtonSpinnerLocation="Left" Minimum="1" Maximum="60" Increment="1"
-                               VerticalAlignment="Center"
                                Watermark="Edit Me"
                                Value="{Binding TimeToAdd}"
                                />
-                <Label >                   </Label>
                 <Button x:Name="AddTimeBtn"
                         Command="{Binding AddTimeSpan}"
                         CommandParameter="{Binding TimeToAdd}" >Ok</Button>
