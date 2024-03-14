@@ -35,27 +35,26 @@
             <StackPanel Orientation="Horizontal">
                 <Button x:Name="StartBtn" Click="OnStartClickHandler" Margin="0 5 0 0" Padding="8" >
                     Start
-                    <!-- <Button.Styles> -->
-                    <!--     <Style Selector="Button"> -->
-                    <!--         <Setter Property="Background" Value="CornflowerBlue"/> -->
-                    <!--         <Setter Property="Foreground" Value="White"/> -->
-                    <!--         <Setter Property="BorderBrush" Value="White"/> -->
-                    <!--         <Setter Property="FontSize" Value="14"/> -->
-                    <!--         <Setter Property="Cursor" Value="Hand"/> -->
-                    <!--     </Style> -->
-                    <!-- </Button.Styles> -->
+                    <Button.Styles>
+                        <Style Selector="Button">
+                            <Setter Property="Background" Value="CornflowerBlue"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="BorderBrush" Value="White"/>
+                            <Setter Property="FontSize" Value="14"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                        </Style>
+                    </Button.Styles>
                 </Button>
                 <Button x:Name="CancelBtn" Click="OnCancelClickHandler" Margin="5 5 0 0" Padding="8" >
                     Cancel
-                    <!-- <Button.Styles>
+                    <Button.Styles>
                         <Style Selector="Button">
                             <Setter Property="Background" Value="White"/>
                             <Setter Property="BorderBrush" Value="SlateGray"/>
                             <Setter Property="FontSize" Value="14"/>
                             <Setter Property="Cursor" Value="Hand"/>
                         </Style>
-
-                    </Button.Styles> -->
+                    </Button.Styles> 
                 </Button>
             </StackPanel>
                                 
@@ -65,11 +64,11 @@
                           Minimum="0" Maximum="100"
                           Classes="circular" >
                 <ProgressBar.Styles>
-                    <Style Selector="ProgressBar">
-                        <Setter Property="Margin" Value="0 10"/>
-                        <Setter Property="Height"  Value="80"/>
-                        <Setter Property="Width" Value="80"></Setter>
-                    </Style>
+                    <!-- <Style Selector="ProgressBar"> -->
+                    <!--     <Setter Property="Margin" Value="0 10"/> -->
+                    <!--     <Setter Property="Height"  Value="80"/> -->
+                    <!--     <Setter Property="Width" Value="80"></Setter> -->
+                    <!-- </Style> -->
                 </ProgressBar.Styles>
             </ProgressBar>
 

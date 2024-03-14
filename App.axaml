@@ -12,8 +12,8 @@
     </Application.DataTemplates>
   
     <Application.Styles>
-        <themes:MaterialTheme BaseTheme="Light" PrimaryColor="Purple" SecondaryColor="Lime" />
-        <!-- <FluentTheme /> -->
+        <!-- <themes:MaterialTheme BaseTheme="Light" PrimaryColor="Purple" SecondaryColor="Lime" /> -->
+        <FluentTheme />
     </Application.Styles>
     
     <NativeMenu.Menu>
