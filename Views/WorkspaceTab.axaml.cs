@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -12,25 +13,26 @@ using MsBox.Avalonia.Dto;
 using MsBox.Avalonia.Models;
 using MsBox.Avalonia.ViewModels;
 using MsBox.Avalonia.Windows;
+using NetCoreAudio;
 
 namespace iTimeSlot.Views;
 
 public partial class WorkspaceTab : UserControl
 {
-    
+
     private DateTime _iconLastUpdate = DateTime.MinValue;
     private readonly object _iconLock = new object();
     private readonly TrayHelper _trayHelper;
-    
-    
+
+
     public WorkspaceTab()
     {
         InitializeComponent();
-        
+
         _trayHelper = new TrayHelper();
     }
-    
-        
+
+
     public void OnStartClickHandler(object sender, RoutedEventArgs args)
     {
         // https://github.com/AvaloniaUI/Avalonia/issues/8076
@@ -43,8 +45,8 @@ public partial class WorkspaceTab : UserControl
 
         var tm = Shared.Global.MyTimer;
         var selected = SelectedTimeSlotCb.SelectedItem as TimeSlot;
-        
-        tm.Init(DateTime.Now, selected.ToTimeSpan(), this.ProgressTo, this.DisplayTimeupAlert);
+
+        tm.Init(DateTime.Now, selected.ToTimeSpan(), this.ProgressTo, this.TimeupAction);
         //update to full before start which will be reset to 0
         //await progressBar.ProgressTo(1, 0, Easing.Default);
         ProgressTo(100);
@@ -101,35 +103,42 @@ public partial class WorkspaceTab : UserControl
 
     }
 
-    private async void DisplayTimeupAlert()
+
+    private async void TimeupAction()
     {
         await Dispatcher.UIThread.Invoke(async () =>
          {
 
+             var ctx = DataContext as MainWindowViewModel;
+             if (ctx != null && ctx.PlaySound)
+             {
+                 var player = new Player();
+                 var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "notification.mp3");
+                 await player.Play(path);
+             }
 
-
-            //  var box = MessageBoxManager.GetMessageBoxCustom(
-            //      new MessageBoxCustomParams
-            //      {
-            //          ButtonDefinitions = new List<ButtonDefinition>
-            //          {
-            //             new ButtonDefinition { Name = "Ok", },
-            //             new ButtonDefinition { Name = "Restart", },
-            //          },
-            //          ContentTitle = "Timer done",
-            //          ContentMessage = "Have a break",
-            //          Icon = MsBox.Avalonia.Enums.Icon.Info,
-            //          WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            //          CanResize = false,
-            //          MaxWidth = 600,
-            //          MaxHeight = 900,
-            //          SizeToContent = SizeToContent.WidthAndHeight,
-            //          ShowInCenter = true,
-            //          Topmost = false,
-            //      });
-            //  var result = await box.ShowWindowDialogAsync(this);
-            var box = new AlertBox();
-            var result = await box.ShowAlertAsync();
+             //  var box = MessageBoxManager.GetMessageBoxCustom(
+             //      new MessageBoxCustomParams
+             //      {
+             //          ButtonDefinitions = new List<ButtonDefinition>
+             //          {
+             //             new ButtonDefinition { Name = "Ok", },
+             //             new ButtonDefinition { Name = "Restart", },
+             //          },
+             //          ContentTitle = "Timer done",
+             //          ContentMessage = "Have a break",
+             //          Icon = MsBox.Avalonia.Enums.Icon.Info,
+             //          WindowStartupLocation = WindowStartupLocation.CenterOwner,
+             //          CanResize = false,
+             //          MaxWidth = 600,
+             //          MaxHeight = 900,
+             //          SizeToContent = SizeToContent.WidthAndHeight,
+             //          ShowInCenter = true,
+             //          Topmost = false,
+             //      });
+             //  var result = await box.ShowWindowDialogAsync(this);
+             var box = new AlertBox();
+             var result = await box.ShowAlertAsync();
              var args = new RoutedEventArgs();
              if (result == "Restart")
              {
@@ -194,7 +203,7 @@ public partial class WorkspaceTab : UserControl
                 DataContext = msBoxCustomViewModel
             };
             window.Closed += msBoxCustomView.CloseWindow;
-            
+
             msBoxCustomView.SetCloseAction(() =>
             {
                 tcs.TrySetResult(msBoxCustomView.GetButtonResult());
@@ -217,5 +226,5 @@ public partial class WorkspaceTab : UserControl
         }
 
     }
-    
+
 }
