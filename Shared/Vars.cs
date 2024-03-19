@@ -25,6 +25,7 @@ namespace iTimeSlot.Shared
                 CloseWithoutExit = DefaultConfig.SysCloseWithoutExit,
                 LastUsedIndex = 0,
                 PlaySound = DefaultConfig.SysPlaySound,
+                ShowProgressInTry = DefaultConfig.SysShowProgInTray
             };
 
             defSetting.TimeSlots = new List<TimeSlot>();

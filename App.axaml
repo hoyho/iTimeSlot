@@ -40,7 +40,7 @@
                          <NativeMenuItem Header="Settings"> </NativeMenuItem>
                          <NativeMenuItem Header="Show" Command="{Binding ShowWindowCommand}" />
                          <NativeMenuItemSeparator />
-                         <NativeMenuItem Header="Exit" Command="{Binding ExitCommand }" />
+                         <NativeMenuItem Header="Quit" Command="{Binding QuitCommand}" />
                      </NativeMenu>
                  </TrayIcon.Menu>
                  

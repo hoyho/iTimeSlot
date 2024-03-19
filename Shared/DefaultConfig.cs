@@ -23,6 +23,7 @@ namespace iTimeSlot.Shared
 
         public static readonly bool SysCloseWithoutExit = true;
         public static readonly bool SysPlaySound = false;
+        public static readonly bool SysShowProgInTray = true;
     }
 
 }

@@ -35,7 +35,7 @@ public partial class ApplicationViewModel : ViewModelBase
 
 
     [RelayCommand]
-    private static void Exit()
+    private static void Quit()
     {
         if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime application)
         {

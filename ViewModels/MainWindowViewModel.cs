@@ -53,14 +53,14 @@ public partial class MainWindowViewModel : ObservableViewModelBase
         get { return _indexOfTimeInSetting; }
         set { this.SetProperty(ref _indexOfTimeInSetting, value); }
     }
-    
+
     private double _progVal;
     public double ProgressValue
     {
         get { return _progVal; }
         set { this.SetProperty(ref _progVal, value); }
     }
-    
+
     private bool _progressVisible;
     public bool ProgressVisible
     {
@@ -68,20 +68,20 @@ public partial class MainWindowViewModel : ObservableViewModelBase
         set { this.SetProperty(ref _progressVisible, value); }
     }
 
-    private bool _isTimeSlotComboBoxEnabled=true;
+    private bool _isTimeSlotComboBoxEnabled = true;
     public bool IsTimeSlotComboBoxEnabled
     {
         get { return _isTimeSlotComboBoxEnabled; }
         set { this.SetProperty(ref _isTimeSlotComboBoxEnabled, value); }
     }
-    private bool _isStartButtonEnabled=true;
+    private bool _isStartButtonEnabled = true;
     public bool IsStartButtonEnabled
     {
         get { return _isStartButtonEnabled; }
         set { this.SetProperty(ref _isStartButtonEnabled, value); }
     }
-    
-    
+
+
     private string _showProgressText;
     public string ShowProgressText
     {
@@ -93,6 +93,7 @@ public partial class MainWindowViewModel : ObservableViewModelBase
 
     public bool CloseWithoutExit { get; set; }
     public bool PlaySound { get; set; }
+    public bool ShowProgressInTray { get; set; }
 
     public void DeleteTimeSpan(TimeSlot toDel)
     {
@@ -185,6 +186,8 @@ public partial class MainWindowViewModel : ObservableViewModelBase
 
             LastUsedIndex = IndexOfSelectedTimeInWorkspace,
             TimeSlots = AllTimeSlots.ToList(),
+            ShowProgressInTry = ShowProgressInTray
+
         };
 
     }
@@ -195,7 +198,7 @@ public partial class MainWindowViewModel : ObservableViewModelBase
         this.PlaySound = settings.PlaySound;
         this.AllTimeSlots = new ObservableCollection<TimeSlot>(settings.TimeSlots);
         this.IndexOfSelectedTimeInWorkspace = settings.LastUsedIndex;
-        Console.WriteLine(this.IndexOfSelectedTimeInWorkspace);
+        this.ShowProgressInTray = settings.ShowProgressInTry;
     }
 
     public void SyncSettings()
@@ -216,9 +219,9 @@ public partial class MainWindowViewModel : ObservableViewModelBase
     {
         var tm = Global.MyTimer;
         var selected = AllTimeSlots[IndexOfSelectedTimeInWorkspace];
-        
+
         tm.Init(DateTime.Now, selected.ToTimeSpan(), ProgressUpdateAction, TimeupAction);
-        
+
         //update to full before start which will be reset to 0
         ProgressValue = 100;
         ProgressVisible = true;
@@ -246,7 +249,7 @@ public partial class MainWindowViewModel : ObservableViewModelBase
         }
     }
 
-    private async void ProgressUpdateAction(double leftPercent100)
+    private void ProgressUpdateAction(double leftPercent100)
     {
         lock (_mainLock)
         {
@@ -259,10 +262,14 @@ public partial class MainWindowViewModel : ObservableViewModelBase
             var left = tm.Duration.Subtract(used).Duration();
             ShowProgressText = left.ToString(@"mm\:ss");
             ProgressValue = leftPercent100;
-            Dispatcher.UIThread.Invoke(() =>
-            { 
-                _trayHelper.SetPercentageTrayIcon(leftPercent100);
-            });
+            if (ShowProgressInTray)
+            {
+                Dispatcher.UIThread.Invoke(() =>
+                {
+                    _trayHelper.SetPercentageTrayIcon(leftPercent100);
+                });
+            }
+
         }
     }
     private async void TimeupAction()

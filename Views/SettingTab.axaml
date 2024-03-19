@@ -76,6 +76,9 @@
                 <CheckBox IsChecked="{Binding PlaySound}"
                           Command="{Binding SyncSettings}"
                           >Play sound when timer done</CheckBox>
+                <CheckBox IsChecked="{Binding ShowProgressInTray}"
+                          Command="{Binding SyncSettings}"
+                          >Show real-time progress in tray icon</CheckBox>
             </StackPanel>
 
         </StackPanel>

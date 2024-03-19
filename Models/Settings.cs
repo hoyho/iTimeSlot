@@ -22,6 +22,8 @@ namespace iTimeSlot.Models
         public bool CloseWithoutExit { get; set; }
 
         public bool PlaySound { get; set; }
+        
+        public bool ShowProgressInTry { get; set; }
 
 
        public void SaveToDisk(string path)
@@ -58,6 +60,11 @@ namespace iTimeSlot.Models
            }
            
            if (target.LastUsedIndex != this.LastUsedIndex)
+           {
+               return true;
+           }
+           
+           if (target.ShowProgressInTry != this.ShowProgressInTry)
            {
                return true;
            }
