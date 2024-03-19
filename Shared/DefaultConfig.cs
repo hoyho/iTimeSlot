@@ -15,16 +15,14 @@ namespace iTimeSlot.Shared
         };
 
 
-        public static List<TimeSpan> SysTimeSlots = new List<TimeSpan>{
-            //TimeSpan.FromSeconds(2),
+        public static readonly List<TimeSpan> SysTimeSlots = new List<TimeSpan>{
             TimeSpan.FromMinutes(5),
-            TimeSpan.FromMinutes(20),
             TimeSpan.FromMinutes(25),
             TimeSpan.FromMinutes(60)
         };
 
-        public static bool SysCloseWithoutExit = true;
-        public static bool SysPlaySound = false;
+        public static readonly bool SysCloseWithoutExit = true;
+        public static readonly bool SysPlaySound = false;
     }
 
 }

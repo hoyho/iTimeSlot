@@ -53,13 +53,13 @@
             <TabItem.Header>
                 <StackPanel Orientation="Vertical" >
                     <Image Source="/Assets/account-menu.png" Width="25" Height="25" Margin="0 0 3 0"/>
-                    <TextBlock Text="Account" />
+                    <TextBlock Text="Statistics" />
                 </StackPanel>
             </TabItem.Header>
             
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <!-- Your controls go here with auto stretch -->
-                <TextBlock Margin="5">This is tab 3 content</TextBlock>
+                <TextBlock Margin="5">Todo</TextBlock>
             </Grid>
 
         </TabItem>
