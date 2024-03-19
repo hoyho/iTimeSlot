@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
@@ -102,8 +101,7 @@ public partial class MainWindowViewModel : ObservableViewModelBase
             Console.WriteLine("timeslot is protected, ignored");
             return;
         }
-        //todo make it more reliable
-        //    if (AllTimeSlots[_indexOfTimeInWorkspace].ToTimeSpan() == toDel.ToTimeSpan())
+
         if (Global.MyTimer.IsStarted() && Global.MyTimer.Duration == toDel.ToTimeSpan())
         {
             var msg = new Notification("operation not permitted", "the time slot is being used", NotificationType.Warning,
@@ -218,29 +216,8 @@ public partial class MainWindowViewModel : ObservableViewModelBase
     {
         var tm = Global.MyTimer;
         var selected = AllTimeSlots[IndexOfSelectedTimeInWorkspace];
-
-        OnProgressUpdateDelegate execOnProgressUpdate = (double leftPercent100) =>
-        {
-            // progressBar.Value = val;
-            var used = DateTime.Now.Subtract(tm.StartTime).Duration();
-            var left = tm.Duration.Subtract(used).Duration();
-            ShowProgressText = left.ToString(@"mm\:ss");
-            ProgressValue = leftPercent100;
-            Dispatcher.UIThread.Invoke(() =>
-            {
-                lock (_mainLock)
-                {
-                    _trayHelper.SetPercentageTrayIcon(leftPercent100);
-                }
-
-                return Task.CompletedTask;
-            });
-
-        };
-        OnTimeUpDelegate execOnTimeup = () => TimeupAction();
         
-
-        tm.Init(DateTime.Now, selected.ToTimeSpan(), execOnProgressUpdate, execOnTimeup);
+        tm.Init(DateTime.Now, selected.ToTimeSpan(), ProgressUpdateAction, TimeupAction);
         
         //update to full before start which will be reset to 0
         ProgressValue = 100;
@@ -269,6 +246,25 @@ public partial class MainWindowViewModel : ObservableViewModelBase
         }
     }
 
+    private async void ProgressUpdateAction(double leftPercent100)
+    {
+        lock (_mainLock)
+        {
+            var tm = Global.MyTimer;
+            if (!tm.IsStarted())
+            {
+                return;
+            }
+            var used = DateTime.Now.Subtract(tm.StartTime).Duration();
+            var left = tm.Duration.Subtract(used).Duration();
+            ShowProgressText = left.ToString(@"mm\:ss");
+            ProgressValue = leftPercent100;
+            Dispatcher.UIThread.Invoke(() =>
+            { 
+                _trayHelper.SetPercentageTrayIcon(leftPercent100);
+            });
+        }
+    }
     private async void TimeupAction()
     {
         await Dispatcher.UIThread.Invoke(async () =>
@@ -286,7 +282,7 @@ public partial class MainWindowViewModel : ObservableViewModelBase
              var args = new RoutedEventArgs();
              if (result == "Restart")
              {
-                 if (iTimeSlot.Shared.Global.MyTimer.IsStarted())
+                 if (Global.MyTimer.IsStarted())
                  {
                      return;
                  }
