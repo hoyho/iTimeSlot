@@ -72,7 +72,7 @@
             <StackPanel   >
                 <CheckBox IsChecked="{Binding CloseWithoutExit}"
                           Command="{Binding SyncSettings}"
-                          >Close without exit</CheckBox>
+                          >Minimize to system tray on close</CheckBox>
                 <CheckBox IsChecked="{Binding PlaySound}"
                           Command="{Binding SyncSettings}"
                           >Play sound when timer done</CheckBox>

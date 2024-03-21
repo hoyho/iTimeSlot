@@ -25,7 +25,8 @@ public partial class MainWindow : Window
     private void OnClosing(object sender, CancelEventArgs e)
     {
         e.Cancel = vm.CloseWithoutExit;
-        Hide();
+        this.WindowState = WindowState.Minimized;
+        //Hide();
     }
     
 
