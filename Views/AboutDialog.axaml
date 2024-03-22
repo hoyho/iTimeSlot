@@ -1,17 +1,19 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        MaxWidth="400"
-        MaxHeight="475"
-        MinWidth="430"
-        MinHeight="475"
-        Title="About My App"
+        MaxWidth="280"
+        MaxHeight="235"
+        MinWidth="280"
+        Title="About iTimeSlot"
         x:Class="iTimeSlot.Views.AboutDialog">
-  <Grid >
+  <Grid Background="LightGray" >
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-      <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+      <StackPanel Orientation="Vertical" VerticalAlignment="Center" >
+        <Image Source="avares://iTimeSlot/Assets/tray-icon.png" Width="50" Height="50" />
         <Rectangle Margin="10" Height="1"  />
-        <TextBlock Text="About" Margin="3" FontSize="14" FontWeight="SemiBold" TextAlignment="Center"  />
-        <TextBlock x:Name="AboutAppInfo" Text="AppInfo" Margin="1" TextAlignment="Center"  />
+        <TextBlock Text="Divide your complex tasks"  FontSize="14" TextAlignment="Center"  />
+        <TextBlock Text="and complete them with iTimeslot"  FontSize="14"  TextAlignment="Center"  />
+        <TextBlock/>
+        <TextBlock x:Name="AboutAppInfo" Text="v0.0.1" Margin="1" FontWeight="SemiBold" TextAlignment="Center"  />
         </StackPanel>
     </StackPanel>
   </Grid>
