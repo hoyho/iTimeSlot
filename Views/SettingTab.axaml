@@ -60,6 +60,7 @@
             <StackPanel Orientation="Horizontal" >
                 <NumericUpDown Name="ToAddNud" ButtonSpinnerLocation="Left" Minimum="1" Maximum="60" Increment="1"
                                Watermark="Edit Me"
+                               Width="140"
                                Value="{Binding TimeToAdd}"
                                />
                 <Button x:Name="AddTimeBtn"
