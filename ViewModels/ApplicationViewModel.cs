@@ -52,6 +52,7 @@ public partial class ApplicationViewModel : ViewModelBase
         AboutDialogWindow = new AboutDialog();
         
         ShowWindow();
-        await AboutDialogWindow.ShowDialog(mainWindow);
+        AboutDialogWindow.Show();
+        // await AboutDialogWindow.ShowDialog(mainWindow);
     }
 }

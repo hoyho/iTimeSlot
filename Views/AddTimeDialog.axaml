@@ -1,0 +1,52 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        MaxWidth="330"
+        MaxHeight="250"
+        WindowStartupLocation="CenterOwner"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaToDecorationsHint="True"
+        Title="Add time to slot"
+        xmlns:vm="clr-namespace:iTimeSlot.ViewModels"
+        x:DataType="vm:MainWindowViewModel"
+        x:Class="iTimeSlot.Views.AddTimeDialog">
+        <!-- This is the key to remove the title bar
+        ExtendClientAreaChromeHints="NoChrome"
+         -->
+        
+        <Design.DataContext>
+          <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+          <vm:MainWindowViewModel/>
+        </Design.DataContext>
+        
+  <Grid >
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+      <Label Target="ToAddNud" FontSize="14" 
+            FontWeight="Bold" VerticalAlignment="Center">Add minute(s) to slot:</Label>
+      <StackPanel Orientation="Horizontal" >
+        <NumericUpDown Name="ToAddNud" 
+                               ButtonSpinnerLocation="Left" 
+                               Increment="1" 
+                               Watermark="Edit Me" 
+                               Width="140"
+                               Value="{Binding TimeToAdd}">
+        </NumericUpDown>
+      </StackPanel>
+      <TextBlock Margin="0 10 0 5">Slot Type:</TextBlock> 
+      <RadioButton Margin="15,0" GroupName="Type"
+                   IsChecked="True"
+                   Content="Work interval"/>
+      <RadioButton Margin="15,0" GroupName="Type"
+                   Content="Rest interval"/>
+      
+      <StackPanel Orientation="Horizontal" >
+        <Button x:Name="AddTimeBtn" Width="65"
+                Command="{Binding AddTimeSpan}"
+                CommandParameter="{Binding TimeToAdd}"
+                >Ok</Button>
+        <Button x:Name="CloseBtn" Click="CloseButton_Click" Width="65"  >Cancel</Button>
+      </StackPanel>
+     
+    </StackPanel>
+  </Grid>
+</Window>
