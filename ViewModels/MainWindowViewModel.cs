@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
@@ -9,7 +13,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using iTimeSlot.Foundation;
 using iTimeSlot.Models;
 using iTimeSlot.Shared;
+using iTimeSlot.Views;
 using NetCoreAudio;
+using ReactiveUI;
 
 namespace iTimeSlot.ViewModels;
 
@@ -33,6 +39,7 @@ public partial class MainWindowViewModel : ObservableViewModelBase
 
     private decimal? _time2Add;
 
+    [Range(1, 60, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
     public decimal? TimeToAdd
     {
         get { return _time2Add; }
@@ -135,6 +142,15 @@ public partial class MainWindowViewModel : ObservableViewModelBase
         }
     }
 
+    public void AddTimeWindow()
+    {
+        AddTimeDialog addTimeDiag = new AddTimeDialog(this);
+        var mainWindow = (Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+        addTimeDiag.Focus();
+        addTimeDiag.BringIntoView();
+        addTimeDiag.ShowDialog(mainWindow);
+    }
+    
     public void AddTimeSpan(decimal? toAdd)
     {
 
