@@ -1,0 +1,37 @@
+---
+name: "pre-release"
+on:
+  push:
+    branches:
+      - "master"
+env:
+  DOTNET_VERSION: '8.0.x'
+jobs:
+  pre-release:
+    name: "Pre Release"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+      - name: Install dependencies
+        run: dotnet restore
+
+      - name: "Build & test"
+        run: |
+          publish.sh
+          
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            LICENSE
+            _output/*.app
