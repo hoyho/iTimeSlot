@@ -3,7 +3,7 @@ name: "pre-release"
 on:
   push:
     branches:
-      - "master"
+      - "main"
 env:
   DOTNET_VERSION: '8.0.x'
 jobs:
@@ -24,8 +24,9 @@ jobs:
 
       - name: "Build & test"
         run: |
-          publish.sh
-          
+          mkdir -p _output
+          dotnet publish iTimeSlot.csproj -o _out -c Release  -f net8.0  --self-contained true -t:BundleApp
+
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
