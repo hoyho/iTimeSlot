@@ -3,7 +3,7 @@ name: "pre-release"
 on:
   push:
     branches:
-      - "master"
+      - "main"
 env:
   DOTNET_VERSION: '8.0.x'
 jobs:
@@ -24,14 +24,16 @@ jobs:
 
       - name: "Build & test"
         run: |
-          publish.sh
-          
-      - uses: "marvinpinto/action-automatic-releases@latest"
+          mkdir -p _output
+          dotnet publish iTimeSlot.csproj -o _out -c Release  -f net8.0  --self-contained true -t:BundleApp
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}    # This token is provided by Actions, you do not need to create your own token
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
           prerelease: true
-          title: "Development Build"
-          files: |
-            LICENSE
-            _output/*.app
