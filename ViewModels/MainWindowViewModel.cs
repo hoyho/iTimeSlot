@@ -144,13 +144,20 @@ public partial class MainWindowViewModel : ObservableViewModelBase
 
     public void AddTimeWindow()
     {
+       
+        //AddTimeDialog use the same context
+        //We set close action here so that other method that bind to the View can call it directly. For instance, AddTimeSpan()
         AddTimeDialog addTimeDiag = new AddTimeDialog(this);
+        this.addTimeSpanOkAction = addTimeDiag.Close;
+
         var mainWindow = (Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
         addTimeDiag.Focus();
         addTimeDiag.BringIntoView();
         addTimeDiag.ShowDialog(mainWindow);
     }
     
+    private event Action addTimeSpanOkAction;
+
     public void AddTimeSpan(decimal? toAdd)
     {
 
@@ -191,6 +198,8 @@ public partial class MainWindowViewModel : ObservableViewModelBase
             IndexOfSelectedTimeInWorkspace = currIdx;
         }
         Console.WriteLine($"{toAdd} added..");
+
+        addTimeSpanOkAction?.Invoke();
     }
 
     private Settings ToSettingsModel()
