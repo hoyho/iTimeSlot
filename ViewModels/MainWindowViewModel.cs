@@ -306,7 +306,6 @@ public partial class MainWindowViewModel : ObservableViewModelBase
              {
                  var player = new Player();
                  var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "notification.mp3");
-                 await player.SetVolume(5);
                  await player.Play(path);
              }
 
