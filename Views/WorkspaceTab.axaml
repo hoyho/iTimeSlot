@@ -3,47 +3,55 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:iTimeSlot.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d"
+             d:DesignWidth="800"
+             d:DesignHeight="450"
              x:DataType="vm:MainWindowViewModel"
              x:Class="iTimeSlot.Views.WorkspaceTab">
-             
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel />
     </Design.DataContext>
-    
     <ScrollViewer>
-        <StackPanel Orientation="Vertical" >
+        <StackPanel Orientation="Vertical">
             <StackPanel>
-                <TextBlock Text="Current Time Slot:"/>
-                <TextBlock> </TextBlock>
+                <TextBlock Text="Current Time Slot:" />
+                <TextBlock />
             </StackPanel>
-            
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-                <ComboBox  x:Name="SelectedTimeSlotCb"  Width="180" 
-                IsEnabled="{Binding IsTimeSlotComboBoxEnabled}"
-                           SelectedIndex="{Binding IndexOfSelectedTimeInWorkspace}"
-                           ItemsSource="{Binding AllTimeSlots }">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom">
+                <ComboBox x:Name="SelectedTimeSlotCb"
+                          Width="180"
+                          IsEnabled="{Binding IsTimeSlotComboBoxEnabled}"
+                          SelectedIndex="{Binding IndexOfSelectedTimeInWorkspace}"
+                          ItemsSource="{Binding AllTimeSlots }">
                     <ComboBox.ItemTemplate>
-                        <DataTemplate >
+                        <DataTemplate>
                             <TextBlock Text="{Binding }" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </StackPanel>
-            
             <StackPanel Orientation="Horizontal">
-                <Button x:Name="StartBtn" Command="{Binding StartCmd}"
-                IsEnabled="{Binding IsStartButtonEnabled}"
-                 Margin="0 5 0 0" Padding="8" >
+                <Button x:Name="StartBtn"
+                        Command="{Binding StartCmd}"
+                        IsEnabled="{Binding IsStartButtonEnabled}"
+                        Margin="0 5 0 0"
+                        Padding="8">
                     <Button.Styles>
                         <Style Selector="Button">
-                            <Setter Property="Background" Value="CornflowerBlue"/>
-                            <Setter Property="Foreground" Value="White"/>
-                            <Setter Property="BorderBrush" Value="White"/>
-                            <Setter Property="FontSize" Value="14"/>
-                            <Setter Property="Cursor" Value="Hand"/>
+                            <Setter Property="Background"
+                                    Value="CornflowerBlue" />
+                            <Setter Property="Foreground"
+                                    Value="White" />
+                            <Setter Property="BorderBrush"
+                                    Value="White" />
+                            <Setter Property="FontSize"
+                                    Value="14" />
+                            <Setter Property="Cursor"
+                                    Value="Hand" />
                         </Style>
                     </Button.Styles>
                     <Button.Content>
@@ -53,13 +61,18 @@
                 </Button>
                 <Button x:Name="CancelBtn"
                         Command="{Binding CancelCmd}"
-                        Margin="5 5 0 0" Padding="8" >
+                        Margin="5 5 0 0"
+                        Padding="8">
                     <Button.Styles>
                         <Style Selector="Button">
-                            <Setter Property="Background" Value="White"/>
-                            <Setter Property="BorderBrush" Value="SlateGray"/>
-                            <Setter Property="FontSize" Value="14"/>
-                            <Setter Property="Cursor" Value="Hand"/>
+                            <Setter Property="Background"
+                                    Value="White" />
+                            <Setter Property="BorderBrush"
+                                    Value="SlateGray" />
+                            <Setter Property="FontSize"
+                                    Value="14" />
+                            <Setter Property="Cursor"
+                                    Value="Hand" />
                         </Style>
                     </Button.Styles>
                     <Button.Content>
@@ -68,24 +81,53 @@
                     </Button.Content>
                 </Button>
             </StackPanel>
-                                
-            <ProgressBar  x:Name="TimeLeftPb"
-                          IsVisible="{Binding ProgressVisible}" 
-                          Value="{Binding ProgressValue}"
-                          ShowProgressText="True" 
-                          ProgressTextFormat="{Binding ShowProgressText}"
-                          Minimum="0" Maximum="100"
-                          Classes="circular">
+            <ProgressBar x:Name="TimeLeftPb"
+                         IsVisible="{Binding ProgressVisible}"
+                         Value="{Binding ProgressValue}"
+                         ShowProgressText="True"
+                         ProgressTextFormat="{Binding ShowProgressText}"
+                         Minimum="0"
+                         Maximum="100"
+                         Classes="circular">
                 <ProgressBar.Styles>
                     <Style Selector="ProgressBar">
-                        <Setter Property="Margin" Value="0 10"/>
+                        <Setter Property="Margin"
+                                Value="0 10" />
                         <!-- <Setter Property="MaxHeight"  Value="80"/> -->
                         <!-- <Setter Property="MaxWidth" Value="80"/> -->
                     </Style>
                 </ProgressBar.Styles>
             </ProgressBar>
-
+            <StackPanel Background="GhostWhite"
+                        Margin="0 50 0 0">
+                <Label>Daily achievement:</Label>
+                <TextBlock Margin="10">
+                    <Ellipse Fill="LightCoral"
+                             Width="10"
+                             Height="10" />
+                    <Run Text="  " />
+                    <Run Text="Work time: " />
+                    <Run Text="{Binding TotalWorkMinutes}" />
+                    <Run Text="m" />
+                </TextBlock>
+                <TextBlock Margin="10">
+                    <Ellipse Fill="LightGreen"
+                             Width="10"
+                             Height="10" />
+                    <Run Text="  " />
+                    <Run Text="Break time: " />
+                    <Run Text="{Binding TotalBreakMinutes}" />
+                    <Run Text="m" />
+                </TextBlock>
+                <TextBlock Margin="10">
+                    <Ellipse Fill="LightBlue"
+                             Width="10"
+                             Height="10" />
+                    <Run Text="  " />
+                    <Run Text="Completed work slots: " />
+                    <Run Text="{Binding CompletedWorkTimers}" />
+                </TextBlock>
+            </StackPanel>
         </StackPanel>
     </ScrollViewer>
-    
 </UserControl>

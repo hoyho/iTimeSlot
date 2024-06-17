@@ -25,6 +25,12 @@ public partial class MainWindowViewModel : ObservableViewModelBase
     public MainWindowViewModel()
     {
         _trayHelper = new TrayHelper();
+
+        //init latest data
+        var data = Global.StatReporter.ReadTodayData();
+        TotalWorkMinutes = data.TotalWorkMinutes;
+        TotalBreakMinutes = data.TotalBreakMinutes;
+        CompletedWorkTimers = data.WorkCount;
     }
     private ObservableCollection<TimeSlot> _slots;
     public ObservableCollection<TimeSlot> AllTimeSlots
@@ -73,6 +79,34 @@ public partial class MainWindowViewModel : ObservableViewModelBase
     {
         get { return _progressVisible; }
         set { this.SetProperty(ref _progressVisible, value); }
+    }
+
+    private bool _isWorkIntervalSelected = true;
+    public bool IsWorkIntervalSelected
+    {
+        get { return _isWorkIntervalSelected; }
+        set { this.SetProperty(ref _isWorkIntervalSelected, value); }
+    }
+
+    private int _totalWorkMinutes;
+    public int TotalWorkMinutes
+    {
+        get { return _totalWorkMinutes; }
+        set { this.SetProperty(ref _totalWorkMinutes, value); }
+    }
+
+    private int _totalBreakMinutes;
+    public int TotalBreakMinutes
+    {
+        get { return _totalBreakMinutes; }
+        set { this.SetProperty(ref _totalBreakMinutes, value); }
+    }
+
+    private int _completedWorkTimers;
+    public int CompletedWorkTimers
+    {
+        get { return _completedWorkTimers; }
+        set { this.SetProperty(ref _completedWorkTimers, value); }
     }
 
     private bool _isTimeSlotComboBoxEnabled = true;
@@ -144,7 +178,7 @@ public partial class MainWindowViewModel : ObservableViewModelBase
 
     public void AddTimeWindow()
     {
-       
+
         //AddTimeDialog use the same context
         //We set close action here so that other method that bind to the View can call it directly. For instance, AddTimeSpan()
         AddTimeDialog addTimeDiag = new AddTimeDialog(this);
@@ -155,7 +189,8 @@ public partial class MainWindowViewModel : ObservableViewModelBase
         addTimeDiag.BringIntoView();
         addTimeDiag.ShowDialog(mainWindow);
     }
-    
+
+    //addTimeSpanOkAction is the action after adding timespan, such as closing the dialog
     private event Action addTimeSpanOkAction;
 
     public void AddTimeSpan(decimal? toAdd)
@@ -177,7 +212,8 @@ public partial class MainWindowViewModel : ObservableViewModelBase
                 return;
             }
         }
-        AllTimeSlots.Add(new TimeSlot(toAddInt, false));
+        IntervalType t = IsWorkIntervalSelected ? IntervalType.Work : IntervalType.Break;
+        AllTimeSlots.Add(new TimeSlot(toAddInt, t, false));
         TimeToAdd = null;//reset the view
         SyncSettings();
 
@@ -245,7 +281,7 @@ public partial class MainWindowViewModel : ObservableViewModelBase
         var tm = Global.MyTimer;
         var selected = AllTimeSlots[IndexOfSelectedTimeInWorkspace];
 
-        tm.Init(DateTime.Now, selected.ToTimeSpan(), ProgressUpdateAction, TimeupAction);
+        tm.Init(selected.IntervalType, DateTime.Now, selected.ToTimeSpan(), ProgressUpdateAction, TimeupAction);
 
         //update to full before start which will be reset to 0
         ProgressValue = 100;
@@ -301,6 +337,24 @@ public partial class MainWindowViewModel : ObservableViewModelBase
     {
         await Dispatcher.UIThread.Invoke(async () =>
          {
+             //a working timer done
+             //accumulate the total work time
+             //write completed timer
+             if (Global.MyTimer.IsWorkInterval())
+             {
+                 Global.StatReporter.CompleteTask(Global.MyTimer.Duration.Minutes);
+             }
+             else
+             {
+                 //a break timer done
+                 //accumulate the total break time
+                 Global.StatReporter.CompleteBreak(Global.MyTimer.Duration.Minutes);
+             }
+             //read latest data
+             var data = Global.StatReporter.ReadTodayData();
+             TotalWorkMinutes = data.TotalWorkMinutes;
+             TotalBreakMinutes = data.TotalBreakMinutes;
+             CompletedWorkTimers = data.WorkCount;
 
              if (PlaySound)
              {

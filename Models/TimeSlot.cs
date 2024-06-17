@@ -7,6 +7,7 @@ namespace iTimeSlot.Models
     public class TimeSlot : ObservableObject
     {
         public bool IsSystemPreserved { get; set; }
+        public IntervalType IntervalType { get; set; }
 
         private TimeSpan _ts;
 
@@ -25,13 +26,15 @@ namespace iTimeSlot.Models
 
         }
 
-        public TimeSlot(TimeSpan srcTs, bool isSystemPreserved = false)
+        public TimeSlot(TimeSpan srcTs, IntervalType iType, bool isSystemPreserved = false)
         {
             this._ts = srcTs;
             IsSystemPreserved = isSystemPreserved;
+            IntervalType = iType;
         }
 
-        public TimeSlot(int minute, bool isSystemPreserved = false) : this(TimeSpan.FromMinutes(minute), isSystemPreserved)
+        public TimeSlot(int minute, IntervalType iType, bool isSystemPreserved = false) :
+        this(TimeSpan.FromMinutes(minute),iType, isSystemPreserved)
         {
 
         }
@@ -39,7 +42,7 @@ namespace iTimeSlot.Models
         public override string ToString()
         {
             int m = (int)_ts.TotalMinutes;
-            string unit = m >1? "mins" : "min";
+            string unit = m > 1 ? "mins" : "min";
             return $"{(int)_ts.TotalMinutes} {unit}".TrimEnd();
         }
 
@@ -53,5 +56,10 @@ namespace iTimeSlot.Models
             return (int)_ts.TotalSeconds;
         }
 
+    }
+    public enum IntervalType
+    {
+        Work,
+        Break
     }
 }

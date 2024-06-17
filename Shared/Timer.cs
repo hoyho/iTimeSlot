@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using iTimeSlot.Models;
 
 namespace iTimeSlot.Shared
 {
@@ -20,8 +21,9 @@ namespace iTimeSlot.Shared
 
 
         private bool _isStarted = false;
+        private IntervalType _invervalType = IntervalType.Work;
 
-        public void Init(DateTime startTime, TimeSpan duration,
+        public void Init(IntervalType type, DateTime startTime, TimeSpan duration,
         OnProgressUpdateDelegate onProgressUpdateFunc, OnTimeUpDelegate onTimeupFunc)
         {
             this.Stop();
@@ -31,6 +33,7 @@ namespace iTimeSlot.Shared
             //Console.WriteLine("start time: " + StartTime, "Duration: " + Duration, "End time: " + EndTime);
             _progressCallback = onProgressUpdateFunc;
             _timeupCallback = onTimeupFunc;
+            _invervalType = type;
         }
 
         public bool IsTimeUp()
@@ -40,6 +43,11 @@ namespace iTimeSlot.Shared
         public bool IsStarted()
         {
             return _isStarted;
+        }
+
+        public bool IsWorkInterval()
+        {
+            return _invervalType == IntervalType.Work;
         }
 
         public bool Start()

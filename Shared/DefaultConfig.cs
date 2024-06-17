@@ -15,10 +15,12 @@ namespace iTimeSlot.Shared
         };
 
 
-        public static readonly List<TimeSpan> SysTimeSlots = new List<TimeSpan>{
-            TimeSpan.FromMinutes(5),
+        public static readonly List<TimeSpan> SysWorkTimeSlots = new List<TimeSpan>{
             TimeSpan.FromMinutes(25),
             TimeSpan.FromMinutes(60)
+        };
+        public static readonly List<TimeSpan> SysBreakTimeSlots = new List<TimeSpan>{
+            TimeSpan.FromMinutes(5),
         };
 
         public static readonly bool SysCloseWithoutExit = true;

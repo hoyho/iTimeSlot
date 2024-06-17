@@ -44,7 +44,7 @@
       </StackPanel>
 
       <RadioButton Margin="15,0" GroupName="Type"
-            IsChecked="True"
+            IsChecked="{Binding IsWorkIntervalSelected}"
             Content="Work interval"/>
       <RadioButton Margin="15,0" GroupName="Type"
                    Content="Rest interval"/>
