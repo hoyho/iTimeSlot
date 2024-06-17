@@ -19,67 +19,76 @@
                 <TextBlock Text="Current Time Slot:" />
                 <TextBlock />
             </StackPanel>
-            <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Bottom">
-                <ComboBox x:Name="SelectedTimeSlotCb"
-                          Width="180"
-                          IsEnabled="{Binding IsTimeSlotComboBoxEnabled}"
-                          SelectedIndex="{Binding IndexOfSelectedTimeInWorkspace}"
-                          ItemsSource="{Binding AllTimeSlots }">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding }" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Button x:Name="StartBtn"
-                        Command="{Binding StartCmd}"
-                        IsEnabled="{Binding IsStartButtonEnabled}"
-                        Margin="0 5 0 0"
-                        Padding="8">
-                    <Button.Styles>
-                        <Style Selector="Button">
-                            <Setter Property="Background"
-                                    Value="CornflowerBlue" />
-                            <Setter Property="Foreground"
-                                    Value="White" />
-                            <Setter Property="BorderBrush"
-                                    Value="White" />
-                            <Setter Property="FontSize"
-                                    Value="14" />
-                            <Setter Property="Cursor"
-                                    Value="Hand" />
-                        </Style>
-                    </Button.Styles>
-                    <Button.Content>
-                        <Label>Start</Label>
-                        <!-- <Image Width="16" Height="16" Source="avares://iTimeSlot/Assets/play-button.png"/> -->
-                    </Button.Content>
-                </Button>
-                <Button x:Name="CancelBtn"
-                        Command="{Binding CancelCmd}"
-                        Margin="5 5 0 0"
-                        Padding="8">
-                    <Button.Styles>
-                        <Style Selector="Button">
-                            <Setter Property="Background"
-                                    Value="White" />
-                            <Setter Property="BorderBrush"
-                                    Value="SlateGray" />
-                            <Setter Property="FontSize"
-                                    Value="14" />
-                            <Setter Property="Cursor"
-                                    Value="Hand" />
-                        </Style>
-                    </Button.Styles>
-                    <Button.Content>
-                        <Label>Stop</Label>
-                        <!-- <Image Width="16" Height="16" Source="avares://iTimeSlot/Assets/stop-button.png"/> -->
-                    </Button.Content>
-                </Button>
+                <StackPanel Orientation="Vertical">
+                    <StackPanel x:Name="ComboBlock"  Orientation="Horizontal"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom">
+                        <ComboBox x:Name="SelectedTimeSlotCb"
+                                  Width="180"
+                                  IsEnabled="{Binding IsTimeSlotComboBoxEnabled}"
+                                  SelectedIndex="{Binding IndexOfSelectedTimeInWorkspace}"
+                                  ItemsSource="{Binding AllTimeSlots }">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding }" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel x:Name="BtnBlock" Orientation="Horizontal">
+                        <Button x:Name="StartBtn"
+                                Command="{Binding StartCmd}"
+                                IsEnabled="{Binding IsStartButtonEnabled}"
+                                Margin="0 5 0 0"
+                                Padding="8">
+                            <Button.Styles>
+                                <Style Selector="Button">
+                                    <Setter Property="Background"
+                                            Value="CornflowerBlue" />
+                                    <Setter Property="Foreground"
+                                            Value="White" />
+                                    <Setter Property="BorderBrush"
+                                            Value="White" />
+                                    <Setter Property="FontSize"
+                                            Value="14" />
+                                    <Setter Property="Cursor"
+                                            Value="Hand" />
+                                </Style>
+                            </Button.Styles>
+                            <Button.Content>
+                                <Label>Start</Label>
+                                <!-- <Image Width="16" Height="16" Source="avares://iTimeSlot/Assets/play-button.png"/> -->
+                            </Button.Content>
+                        </Button>
+                        <Button x:Name="CancelBtn"
+                                Command="{Binding CancelCmd}"
+                                Margin="5 5 0 0"
+                                Padding="8">
+                            <Button.Styles>
+                                <Style Selector="Button">
+                                    <Setter Property="Background"
+                                            Value="White" />
+                                    <Setter Property="BorderBrush"
+                                            Value="SlateGray" />
+                                    <Setter Property="FontSize"
+                                            Value="14" />
+                                    <Setter Property="Cursor"
+                                            Value="Hand" />
+                                </Style>
+                            </Button.Styles>
+                            <Button.Content>
+                                <Label>Stop</Label>
+                                <!-- <Image Width="16" Height="16" Source="avares://iTimeSlot/Assets/stop-button.png"/> -->
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel x:Name="StatusBlock" Orientation="Vertical" Margin="30 0 0 0" >
+                    <Image x:Name="StatusIcon" Height="45" Source="{Binding ImageStatus}" />
+                    <TextBlock x:Name="StatusLabel" Text="{Binding LabelStatus}"/>
+                </StackPanel>
             </StackPanel>
             <ProgressBar x:Name="TimeLeftPb"
                          IsVisible="{Binding ProgressVisible}"

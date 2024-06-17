@@ -8,6 +8,8 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using iTimeSlot.Foundation;
@@ -57,7 +59,24 @@ public partial class MainWindowViewModel : ObservableViewModelBase
     public int IndexOfSelectedTimeInWorkspace
     {
         get { return _indexOfTimeInWorkspace; }
-        set { this.SetProperty(ref _indexOfTimeInWorkspace, value); }
+        set
+        {
+            //change the status label when index change
+            this.SetProperty(ref _indexOfTimeInWorkspace, value);
+            var selected = AllTimeSlots[IndexOfSelectedTimeInWorkspace];
+            LabelStatus = selected.IntervalType == IntervalType.Work ? "Work interval" : "Break interval";
+
+            //change the status image when index change
+            if (selected.IntervalType == IntervalType.Work)
+            {
+                ImageStatus = new Bitmap(AssetLoader.Open(new Uri("avares://iTimeSlot/Assets/status-work.png")));
+            }
+            else
+            {
+                ImageStatus = new Bitmap(AssetLoader.Open(new Uri("avares://iTimeSlot/Assets/status-break.png")));
+            }
+
+        }
     }
 
     private int _indexOfTimeInSetting;
@@ -135,6 +154,39 @@ public partial class MainWindowViewModel : ObservableViewModelBase
     public bool CloseWithoutExit { get; set; }
     public bool PlaySound { get; set; }
     public bool ShowProgressInTray { get; set; }
+
+
+    private Bitmap? _imageStatus;
+    public Bitmap? ImageStatus
+    {
+        get
+        {
+            var assemblyName = "iTimeSlot"; // Assembly.GetExecutingAssembly().GetName().Name;
+            var selected = AllTimeSlots[IndexOfSelectedTimeInWorkspace];
+            if (selected.IntervalType == IntervalType.Work)
+            {
+                return new Bitmap(AssetLoader.Open(new Uri($"avares://{assemblyName}/Assets/status-work.png")));
+            }
+            else
+            {
+                return new Bitmap(AssetLoader.Open(new Uri($"avares://{assemblyName}/Assets/status-break.png")));
+            }
+        }
+
+        set { this.SetProperty(ref _imageStatus, value); }
+    }
+
+    private string _labelStatus;
+    public string LabelStatus
+    {
+        get
+        {
+            var selected = AllTimeSlots[IndexOfSelectedTimeInWorkspace];
+            return selected.IntervalType == IntervalType.Work ? "Work inertval" : "Break interval";
+        }
+        set { this.SetProperty(ref _labelStatus, value); }
+    }
+
 
     public void DeleteTimeSpan(TimeSlot toDel)
     {
