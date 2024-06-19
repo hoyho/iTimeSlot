@@ -10,7 +10,7 @@ using iTimeSlot.Models;
 public interface IStatistics
 {
     DailyStat ReadTodayData();
-    void ReadWeekData();
+    List<DailyStat> ReadWeekData();
 
     void CompleteTask(int minute);
     void CompleteBreak(int minute);
@@ -20,7 +20,7 @@ public interface IStatistics
 //DiskStatistics is a class that implements IStatistics interface using disk as storage
 public class DiskStatistics : IStatistics
 {
-    private string iTimeslotDateFormat ="yyyy-MM-dd"; //date format: 2024-06-01
+    private string iTimeslotDateFormat = "yyyy-MM-dd"; //date format: 2024-06-01
     private string _dataPath = "";
 
     public DiskStatistics(string dataPath)
@@ -146,9 +146,22 @@ public class DiskStatistics : IStatistics
         return ds;
     }
 
-    public void ReadWeekData()
+    public List<DailyStat> ReadWeekData()
     {
         EnsureExist();
-        throw new NotImplementedException();
+
+        string jsonString = File.ReadAllText(_dataPath);
+        var stats = JsonSerializer.Deserialize(jsonString, new JsonContext().Stats);
+
+        var rs = new List<DailyStat>();
+
+        if (stats == null || stats.DailyStats == null)
+        {
+            return rs;
+        }
+
+        var existed = stats.DailyStats.OrderBy(s => s.Date).Take(7);
+
+        return existed.ToList();
     }
 }

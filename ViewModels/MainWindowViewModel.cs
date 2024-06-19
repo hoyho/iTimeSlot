@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using Avalonia;
@@ -16,8 +17,12 @@ using iTimeSlot.Foundation;
 using iTimeSlot.Models;
 using iTimeSlot.Shared;
 using iTimeSlot.Views;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
 using NetCoreAudio;
 using ReactiveUI;
+using SkiaSharp;
 
 namespace iTimeSlot.ViewModels;
 
@@ -33,6 +38,32 @@ public partial class MainWindowViewModel : ObservableViewModelBase
         TotalWorkMinutes = data.TotalWorkMinutes;
         TotalBreakMinutes = data.TotalBreakMinutes;
         CompletedWorkTimers = data.WorkCount;
+
+        var weekData = Global.StatReporter.ReadWeekData();
+        int displayNum = 3;
+        StatSeries = new ISeries[]
+        {
+            new ColumnSeries<int>
+            {
+                Name = "Total work minutes",
+                Values = weekData.Take(displayNum).Select(x => x.TotalWorkMinutes).ToArray()
+            },
+            new ColumnSeries<int>
+            {
+                Name = "Total break minutes",
+                Values = weekData.Take(displayNum).Select(x => x.TotalBreakMinutes).ToArray()
+            }
+        };
+        var dates = weekData.Take(displayNum).Select(x => x.Date).ToArray();
+
+        StatXAxes = new Axis[]
+        {
+            new Axis
+            {
+                Labels = dates.Select(x => DateTime.Parse(x).ToString("dd MMM")).ToArray()
+            }
+        };
+
     }
     private ObservableCollection<TimeSlot> _slots;
     public ObservableCollection<TimeSlot> AllTimeSlots
@@ -186,6 +217,42 @@ public partial class MainWindowViewModel : ObservableViewModelBase
         }
         set { this.SetProperty(ref _labelStatus, value); }
     }
+
+
+    public ISeries[] StatSeries { get; set; } =
+    {
+        // new ColumnSeries<double>
+        // {
+        //     Name = "Total work minutes",
+        //     Values = new double[] { 61, 113, 12 }
+        // },
+        // new ColumnSeries<double>
+        // {
+        //     Name = "Total break minutes",
+        //     Values = new double[] { 2, 15, 5 }
+        // }
+    };
+
+    public Axis[] StatXAxes { get; set; } =
+    {
+        new Axis
+        {
+            Labels = new string[] { "17 Jun", "18 Jun", "19 Jun" },
+            LabelsRotation = 0,
+
+            SeparatorsPaint = new SolidColorPaint(new SKColor(200, 200, 200)),
+            // SeparatorsPaint = new SolidColorPaint(SKColors.LightCoral),
+            SeparatorsAtCenter = false,
+            TicksPaint = new SolidColorPaint(new SKColor(35, 35, 35)),
+            // TicksPaint = new SolidColorPaint(SKColors.LightGreen),
+            //TicksAtCenter = true,
+            // By default the axis tries to optimize the number of 
+            // labels to fit the available space, 
+            // when you need to force the axis to show all the labels then you must: 
+            // ForceStepToMin = true,
+            MinStep = 1,
+        }
+    };
 
 
     public void DeleteTimeSpan(TimeSlot toDel)

@@ -59,7 +59,7 @@
             
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <!-- Your controls go here with auto stretch -->
-                <TextBlock Margin="5">Todo</TextBlock>
+                <view:StatisticsTab></view:StatisticsTab>
             </Grid>
 
         </TabItem>
