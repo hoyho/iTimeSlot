@@ -39,8 +39,8 @@ public partial class MainWindowViewModel : ObservableViewModelBase
         TotalBreakMinutes = data.TotalBreakMinutes;
         CompletedWorkCount = data.WorkCount;
 
-        var weekData = Global.StatReporter.ReadWeekData();
         int displayNum = 3;
+        var weekData = Global.StatReporter.ReadWeekData(3);
         StatSeries = new ISeries[]
         {
             new ColumnSeries<int>

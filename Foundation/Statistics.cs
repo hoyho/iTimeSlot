@@ -10,9 +10,14 @@ namespace iTimeSlot.Foundation;
 public interface IStatistics
 {
     DailyStat ReadTodayData();
-    List<DailyStat> ReadWeekData();
+    
+    //ReadWeekData return most recent statistics data
+    List<DailyStat> ReadWeekData(int max);
 
+    //CompleteTask marks a new task completed and record it for later use.
     void CompleteTask(int minute);
+    
+    //CompleteTask marks a new break interval completed and record it for later use.
     void CompleteBreak(int minute);
 }
 
@@ -20,8 +25,8 @@ public interface IStatistics
 //DiskStatistics is a class that implements IStatistics interface using disk as storage
 public class DiskStatistics : IStatistics
 {
-    private string iTimeslotDateFormat = "yyyy-MM-dd"; //date format: 2024-06-01
-    private string _dataPath = "";
+    private const string TimeslotDateFormat = "yyyy-MM-dd"; //date format: 2024-06-01
+    private readonly string _dataPath;
 
     public DiskStatistics(string dataPath)
     {
@@ -77,17 +82,13 @@ public class DiskStatistics : IStatistics
                     DailyStats = new List<DailyStat>() { }
                 };
             }
-            else if (stats.DailyStats == null)
-            {
-                stats.DailyStats = new List<DailyStat>() { };
-            }
 
             var entry = new DailyStat()
             {
-                Date = DateTime.Today.ToString(iTimeslotDateFormat),
+                Date = DateTime.Today.ToString(TimeslotDateFormat),
             };
 
-            var existed = stats.DailyStats.FirstOrDefault(s => s.Date == DateTime.Today.ToString(iTimeslotDateFormat));
+            var existed = stats.DailyStats.FirstOrDefault(s => s.Date == DateTime.Today.ToString(TimeslotDateFormat));
             if (existed != null)
             {
                 entry = existed;
@@ -129,7 +130,7 @@ public class DiskStatistics : IStatistics
 
         var ds = new DailyStat()
         {
-            Date = DateTime.Today.ToString(iTimeslotDateFormat),
+            Date = DateTime.Today.ToString(TimeslotDateFormat),
         };
 
         if (stats == null || stats.DailyStats == null)
@@ -137,7 +138,7 @@ public class DiskStatistics : IStatistics
             return ds;
         }
 
-        var existed = stats.DailyStats.FirstOrDefault(s => s.Date == DateTime.Today.ToString(iTimeslotDateFormat));
+        var existed = stats.DailyStats.FirstOrDefault(s => s.Date == DateTime.Today.ToString(TimeslotDateFormat));
         if (existed != null)
         {
             ds = existed;
@@ -146,7 +147,7 @@ public class DiskStatistics : IStatistics
         return ds;
     }
 
-    public List<DailyStat> ReadWeekData()
+    public List<DailyStat> ReadWeekData(int max=7)
     {
         EnsureExist();
 
@@ -160,8 +161,9 @@ public class DiskStatistics : IStatistics
             return rs;
         }
 
-        var existed = stats.DailyStats.OrderBy(s => s.Date).Take(7);
+        var existed = stats.DailyStats.OrderByDescending(s => s.Date).Take(max);
 
-        return existed.ToList();
+        //ensure return in dated order
+        return existed.OrderBy(d => d.Date).ToList();
     }
 }
