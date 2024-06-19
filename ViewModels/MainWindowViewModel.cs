@@ -37,7 +37,7 @@ public partial class MainWindowViewModel : ObservableViewModelBase
         var data = Global.StatReporter.ReadTodayData();
         TotalWorkMinutes = data.TotalWorkMinutes;
         TotalBreakMinutes = data.TotalBreakMinutes;
-        CompletedWorkTimers = data.WorkCount;
+        CompletedWorkCount = data.WorkCount;
 
         var weekData = Global.StatReporter.ReadWeekData();
         int displayNum = 3;
@@ -60,7 +60,20 @@ public partial class MainWindowViewModel : ObservableViewModelBase
         {
             new Axis
             {
-                Labels = dates.Select(x => DateTime.Parse(x).ToString("dd MMM")).ToArray()
+                Labels = dates.Select(x => DateTime.Parse(x).ToString("dd MMM")).ToArray(),
+                /*
+                Labels = new string[] { "17 Jun", "18 Jun", "19 Jun" },
+                LabelsRotation = 0, 
+                SeparatorsPaint = new SolidColorPaint(new SKColor(200, 200, 200)),
+                SeparatorsAtCenter = false, 
+                TicksPaint = new SolidColorPaint(new SKColor(35, 35, 35)), 
+                TicksAtCenter = true, 
+                //By default the axis tries to optimize the number of
+                // labels to fit the available space,
+                // when you need to force the axis to show all the labels then you must:
+                ForceStepToMin = true,
+                MinStep = 1,
+                */
             }
         };
 
@@ -152,11 +165,11 @@ public partial class MainWindowViewModel : ObservableViewModelBase
         set { this.SetProperty(ref _totalBreakMinutes, value); }
     }
 
-    private int _completedWorkTimers;
-    public int CompletedWorkTimers
+    private int _completedWorkCount;
+    public int CompletedWorkCount
     {
-        get { return _completedWorkTimers; }
-        set { this.SetProperty(ref _completedWorkTimers, value); }
+        get { return _completedWorkCount; }
+        set { this.SetProperty(ref _completedWorkCount, value); }
     }
 
     private bool _isTimeSlotComboBoxEnabled = true;
@@ -219,40 +232,8 @@ public partial class MainWindowViewModel : ObservableViewModelBase
     }
 
 
-    public ISeries[] StatSeries { get; set; } =
-    {
-        // new ColumnSeries<double>
-        // {
-        //     Name = "Total work minutes",
-        //     Values = new double[] { 61, 113, 12 }
-        // },
-        // new ColumnSeries<double>
-        // {
-        //     Name = "Total break minutes",
-        //     Values = new double[] { 2, 15, 5 }
-        // }
-    };
-
-    public Axis[] StatXAxes { get; set; } =
-    {
-        new Axis
-        {
-            Labels = new string[] { "17 Jun", "18 Jun", "19 Jun" },
-            LabelsRotation = 0,
-
-            SeparatorsPaint = new SolidColorPaint(new SKColor(200, 200, 200)),
-            // SeparatorsPaint = new SolidColorPaint(SKColors.LightCoral),
-            SeparatorsAtCenter = false,
-            TicksPaint = new SolidColorPaint(new SKColor(35, 35, 35)),
-            // TicksPaint = new SolidColorPaint(SKColors.LightGreen),
-            //TicksAtCenter = true,
-            // By default the axis tries to optimize the number of 
-            // labels to fit the available space, 
-            // when you need to force the axis to show all the labels then you must: 
-            // ForceStepToMin = true,
-            MinStep = 1,
-        }
-    };
+    public ISeries[] StatSeries { get; set; }
+    public Axis[] StatXAxes { get; set; }
 
 
     public void DeleteTimeSpan(TimeSlot toDel)
@@ -473,7 +454,7 @@ public partial class MainWindowViewModel : ObservableViewModelBase
              var data = Global.StatReporter.ReadTodayData();
              TotalWorkMinutes = data.TotalWorkMinutes;
              TotalBreakMinutes = data.TotalBreakMinutes;
-             CompletedWorkTimers = data.WorkCount;
+             CompletedWorkCount = data.WorkCount;
 
              if (PlaySound)
              {

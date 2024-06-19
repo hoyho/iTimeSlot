@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using DynamicData;
-using DynamicData.Kernel;
 using iTimeSlot.Models;
+
+namespace iTimeSlot.Foundation;
 
 public interface IStatistics
 {

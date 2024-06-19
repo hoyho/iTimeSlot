@@ -134,7 +134,7 @@
                              Height="10" />
                     <Run Text="  " />
                     <Run Text="Completed work slots: " />
-                    <Run Text="{Binding CompletedWorkTimers}" />
+                    <Run Text="{Binding CompletedWorkCount}" />
                 </TextBlock>
             </StackPanel>
         </StackPanel>
