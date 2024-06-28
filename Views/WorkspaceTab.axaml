@@ -31,7 +31,14 @@
                                   ItemsSource="{Binding AllTimeSlots }">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding }" />
+                                    <StackPanel Orientation="Horizontal" Height="30">
+                                        <Ellipse HorizontalAlignment="Center" VerticalAlignment="Center"
+                                            Fill="{Binding  DisplayColor}"
+                                                 Width="10"
+                                                 Height="10" />
+                                        <TextBlock Text="  "/>
+                                        <TextBlock Text="{Binding  }" VerticalAlignment="Center"  />
+                                    </StackPanel>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>

@@ -1,5 +1,6 @@
 using System;
 using System.Text.Json.Serialization;
+using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace iTimeSlot.Models
@@ -8,6 +9,22 @@ namespace iTimeSlot.Models
     {
         public bool IsSystemPreserved { get; set; }
         public IntervalType IntervalType { get; set; }
+
+
+        public IBrush DisplayColor
+        {
+            get
+            {
+                if (this.IntervalType == IntervalType.Break)
+                {
+                    return new SolidColorBrush(Colors.LightGreen);
+                }
+                else
+                {
+                    return new SolidColorBrush(Colors.LightCoral);
+                }
+            }
+        }
 
         private TimeSpan _ts;
 
