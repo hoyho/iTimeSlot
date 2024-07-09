@@ -4,7 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:iTimeSlot.ViewModels"
              xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d"
+             d:DesignWidth="800"
+             d:DesignHeight="450"
              x:DataType="vm:MainWindowViewModel"
              x:Class="iTimeSlot.Views.StatisticsTab">
     <Design.DataContext>
@@ -12,9 +14,23 @@
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel />
     </Design.DataContext>
-    <DockPanel>
-        <lvc:CartesianChart Series="{Binding StatSeries}"
+    <Grid>
+        <Grid Grid.Column="0">
+                <lvc:CartesianChart Series="{Binding StatSeries}"
                             XAxes="{Binding StatXAxes}"
                             LegendPosition="Bottom" />
-    </DockPanel>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Button Name="RefreshStatBtn"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                IsEnabled="True"
+                Background="Transparent" 
+                Command="{Binding RefreshStatCmd}">
+            <TextBlock Text="🔄"
+                       Foreground="LightGray" />
+            </Button>
+        </Grid>
+
+    </Grid>
 </UserControl>

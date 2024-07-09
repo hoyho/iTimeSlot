@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -9,6 +10,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Avalonia.Threading;
@@ -20,6 +22,7 @@ using iTimeSlot.Views;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
+using Material.Colors.Recommended;
 using NetCoreAudio;
 using ReactiveUI;
 using SkiaSharp;
@@ -34,48 +37,7 @@ public partial class MainWindowViewModel : ObservableViewModelBase
         _trayHelper = new TrayHelper();
 
         //init latest data
-        var data = Global.StatReporter.ReadTodayData();
-        TotalWorkMinutes = data.TotalWorkMinutes;
-        TotalBreakMinutes = data.TotalBreakMinutes;
-        CompletedWorkCount = data.WorkCount;
-
-        int displayNum = 3;
-        var weekData = Global.StatReporter.ReadWeekData(3);
-        StatSeries = new ISeries[]
-        {
-            new ColumnSeries<int>
-            {
-                Name = "Total work minutes",
-                Values = weekData.Take(displayNum).Select(x => x.TotalWorkMinutes).ToArray()
-            },
-            new ColumnSeries<int>
-            {
-                Name = "Total break minutes",
-                Values = weekData.Take(displayNum).Select(x => x.TotalBreakMinutes).ToArray()
-            }
-        };
-        var dates = weekData.Take(displayNum).Select(x => x.Date).ToArray();
-
-        StatXAxes = new Axis[]
-        {
-            new Axis
-            {
-                Labels = dates.Select(x => DateTime.Parse(x).ToString("dd MMM")).ToArray(),
-                /*
-                Labels = new string[] { "17 Jun", "18 Jun", "19 Jun" },
-                LabelsRotation = 0, 
-                SeparatorsPaint = new SolidColorPaint(new SKColor(200, 200, 200)),
-                SeparatorsAtCenter = false, 
-                TicksPaint = new SolidColorPaint(new SKColor(35, 35, 35)), 
-                TicksAtCenter = true, 
-                //By default the axis tries to optimize the number of
-                // labels to fit the available space,
-                // when you need to force the axis to show all the labels then you must:
-                ForceStepToMin = true,
-                MinStep = 1,
-                */
-            }
-        };
+        RefreshStatCmd();
 
     }
     private ObservableCollection<TimeSlot> _slots;
@@ -232,8 +194,30 @@ public partial class MainWindowViewModel : ObservableViewModelBase
     }
 
 
-    public ISeries[] StatSeries { get; set; }
-    public Axis[] StatXAxes { get; set; }
+    private ISeries[] _statSeries;
+    public ISeries[] StatSeries
+    {
+        get
+        {
+            return _statSeries;
+        }
+        set
+        {
+            this.SetProperty(ref _statSeries, value);
+        }
+    }
+    private Axis[] _statXAxes;
+    public Axis[] StatXAxes
+    {
+        get
+        {
+            return _statXAxes;
+        }
+        set
+        {
+            this.SetProperty(ref _statXAxes, value);
+        }
+    }
 
 
     public void DeleteTimeSpan(TimeSlot toDel)
@@ -408,6 +392,59 @@ public partial class MainWindowViewModel : ObservableViewModelBase
             //potential memory leak here
             _trayHelper.ResetTrayIcon();
         }
+    }
+
+    public void RefreshStatCmd()
+    {
+        var data = Global.StatReporter.ReadTodayData();
+        TotalWorkMinutes = data.TotalWorkMinutes;
+        TotalBreakMinutes = data.TotalBreakMinutes;
+        CompletedWorkCount = data.WorkCount;
+
+        int displayNum = 3;
+        var weekData = Global.StatReporter.ReadWeekData(3);
+        StatSeries = new ISeries[]
+        {
+            new ColumnSeries<int>
+            {
+                Name = "Total work minutes",
+                Values = weekData.Take(displayNum).Select(x => x.TotalWorkMinutes).ToArray(),
+                //SKColor(139, 195, 74) is the color of green
+                //new SKColor(238, 127, 127) //LightCoral
+                Fill= new SolidColorPaint(new SKColor(139, 195, 74))
+            },
+            new ColumnSeries<int>
+            {
+                Name = "Total break minutes",
+                Values = weekData.Take(displayNum).Select(x => x.TotalBreakMinutes).ToArray(),
+                //SKColor(0, 188, 212) is the color of blue
+                //new SKColor(144, 238, 144) LightGreen
+                Fill= new SolidColorPaint(new SKColor(0, 188, 212)) //use light green
+            }
+        };
+        var dates = weekData.Take(displayNum).Select(x => x.Date).ToArray();
+
+        StatXAxes = new Axis[]
+        {
+            new Axis
+            {
+                Labels = dates.Select(x => DateTime.Parse(x).ToString("dd MMM")).ToArray(),
+                /*
+                Labels = new string[] { "17 Jun", "18 Jun", "19 Jun" },
+                LabelsRotation = 0, 
+                SeparatorsPaint = new SolidColorPaint(new SKColor(200, 200, 200)),
+                SeparatorsAtCenter = false, 
+                TicksPaint = new SolidColorPaint(new SKColor(35, 35, 35)), 
+                TicksAtCenter = true, 
+                //By default the axis tries to optimize the number of
+                // labels to fit the available space,
+                // when you need to force the axis to show all the labels then you must:
+                ForceStepToMin = true,
+                MinStep = 1,
+                */
+            }
+        };
+
     }
 
     private void ProgressUpdateAction(double leftPercent100)
