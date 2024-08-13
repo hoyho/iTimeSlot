@@ -23,5 +23,9 @@ public class DailyStat
 
 public class Stats
 {
-    public List<DailyStat> DailyStats { get; set; }
+    public Stats()
+    {
+        DailyStats = new List<DailyStat>();
+    }
+    public  List<DailyStat>  DailyStats { get; set; }
 }

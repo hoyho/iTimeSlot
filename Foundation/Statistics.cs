@@ -10,13 +10,13 @@ namespace iTimeSlot.Foundation;
 public interface IStatistics
 {
     DailyStat ReadTodayData();
-    
+
     //ReadWeekData return most recent statistics data
     List<DailyStat> ReadWeekData(int max);
 
     //CompleteTask marks a new task completed and record it for later use.
     void CompleteTask(int minute);
-    
+
     //CompleteTask marks a new break interval completed and record it for later use.
     void CompleteBreak(int minute);
 }
@@ -83,33 +83,32 @@ public class DiskStatistics : IStatistics
                 };
             }
 
-            var entry = new DailyStat()
+            var record = stats.DailyStats.FirstOrDefault(s => s.Date == DateTime.Today.ToString(TimeslotDateFormat));
+            bool notExist = record == null;
+            if (record == null)
             {
-                Date = DateTime.Today.ToString(TimeslotDateFormat),
-            };
-
-            var existed = stats.DailyStats.FirstOrDefault(s => s.Date == DateTime.Today.ToString(TimeslotDateFormat));
-            if (existed != null)
-            {
-                entry = existed;
+                record = new DailyStat()
+                {
+                    Date = DateTime.Today.ToString(TimeslotDateFormat),
+                };
             }
 
             //update entry
             if (type == IntervalType.Work)
             {
-                entry.WorkCount += 1;
-                entry.TotalWorkMinutes += minute;
+                record.WorkCount += 1;
+                record.TotalWorkMinutes += minute;
             }
             else
             {
-                entry.BreakCount += 1;
-                entry.TotalBreakMinutes += minute;
+                record.BreakCount += 1;
+                record.TotalBreakMinutes += minute;
             }
 
             //add to list if not existed 
-            if (existed == null)
+            if (notExist)
             {
-                stats.DailyStats.Add(entry);
+                stats.DailyStats.Add(record);
             }
 
             var json = JsonSerializer.Serialize(stats, new JsonContext().Stats);
@@ -117,7 +116,7 @@ public class DiskStatistics : IStatistics
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Failed to update db:" + ex.Message);
+            Console.WriteLine("Failed to update db:" + ex);
         }
 
     }
@@ -147,7 +146,7 @@ public class DiskStatistics : IStatistics
         return ds;
     }
 
-    public List<DailyStat> ReadWeekData(int max=7)
+    public List<DailyStat> ReadWeekData(int max = 7)
     {
         EnsureExist();
 
