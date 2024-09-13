@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Platform;
@@ -16,36 +15,31 @@ namespace iTimeSlot.Foundation
 
         public SKBitmap GenerateTrayIcon(double percentage)
         {
-            // 确保百分比在0到100之间
             percentage = Math.Max(0, Math.Min(100, percentage));
 
-            int iconSize = 22; // macOS托盘图标的大小为22x22像素
+            int iconSize = 22; // 22x22 pixels for macOS tray icon
 
             using var surface = SKSurface.Create(new SKImageInfo(iconSize, iconSize));
             SKCanvas canvas = surface.Canvas;
 
-            // 清空画布
             canvas.Clear(SKColors.Transparent);
-
-            // 绘制饼状图
             SKPaint paint = new SKPaint
             {
                 IsAntialias = true
             };
 
             SKRect rect = new SKRect(0, 0, iconSize, iconSize);
-            SKColor fillColor = SKColors.White; // 饼状图的填充颜色，可以根据需要调整
+            SKColor fillColor = SKColors.White; // color of the circle
             paint.Color = fillColor;
             canvas.DrawOval(rect, paint);
 
-            // 绘制扇形
-            paint.Color = SKColors.MediumSlateBlue; // 扇形的颜色，可以根据需要调整
+            // Draw the arc (the percentage part)
+            paint.Color = SKColors.MediumSlateBlue; // color of the arc
 
-            float startAngle = -90; // 从12点钟方向开始
+            float startAngle = -90; // start from the top
             float sweepAngle = (float)(360 * (1 - percentage / 100));
             canvas.DrawArc(rect, startAngle, sweepAngle, true, paint);
 
-            // 生成位图对象
             SKImage image = surface.Snapshot();
             return SKBitmap.FromImage(image);
         }
@@ -54,8 +48,7 @@ namespace iTimeSlot.Foundation
         {
             using var stream = new MemoryStream();
             using var skBitmap = GenerateTrayIcon(percentage);
-            skBitmap.Encode(stream, SKEncodedImageFormat.Png, 100); // 将 SKBitmap 对象保存为 PNG 格式到流中
-            // 将流的位置重置到起始位置，以便后续读取
+            skBitmap.Encode(stream, SKEncodedImageFormat.Png, 100);
             stream.Position = 0;
 
             var icon = new WindowIcon(stream);
