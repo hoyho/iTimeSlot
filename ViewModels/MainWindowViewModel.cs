@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Drawing;
@@ -31,6 +32,8 @@ namespace iTimeSlot.ViewModels;
 
 public partial class MainWindowViewModel : ObservableViewModelBase
 {
+
+    private const int DisplayNum = 3;
 
     public MainWindowViewModel()
     {
@@ -401,50 +404,35 @@ public partial class MainWindowViewModel : ObservableViewModelBase
         TotalBreakMinutes = data.TotalBreakMinutes;
         CompletedWorkCount = data.WorkCount;
 
-        int displayNum = 3;
-        var weekData = Global.StatReporter.ReadWeekData(3);
+        var weekDataSubset = Global.StatReporter.ReadWeekData(DisplayNum).ToArray();
+
         StatSeries = new ISeries[]
         {
             new ColumnSeries<int>
             {
                 Name = "Total work minutes",
-                Values = weekData.Take(displayNum).Select(x => x.TotalWorkMinutes).ToArray(),
-                //SKColor(139, 195, 74) is the color of green
-                //new SKColor(238, 127, 127) //LightCoral
-                Fill= new SolidColorPaint(new SKColor(139, 195, 74))
+                Values = weekDataSubset.Select(x => x.TotalWorkMinutes).ToArray(),
+                Fill = new SolidColorPaint(new SKColor(139, 195, 74))
             },
             new ColumnSeries<int>
             {
                 Name = "Total break minutes",
-                Values = weekData.Take(displayNum).Select(x => x.TotalBreakMinutes).ToArray(),
-                //SKColor(0, 188, 212) is the color of blue
-                //new SKColor(144, 238, 144) LightGreen
-                Fill= new SolidColorPaint(new SKColor(0, 188, 212)) //use light green
+                Values = weekDataSubset.Select(x => x.TotalBreakMinutes).ToArray(),
+                Fill = new SolidColorPaint(new SKColor(0, 188, 212))
             }
         };
-        var dates = weekData.Take(displayNum).Select(x => x.Date).ToArray();
+
+        var dates = weekDataSubset
+            .Select(x => DateTime.TryParse(x.Date, out var parsedDate) ? parsedDate.ToString("dd MMM") : "Invalid Date")
+            .ToArray();
 
         StatXAxes = new Axis[]
         {
             new Axis
             {
-                Labels = dates.Select(x => DateTime.Parse(x).ToString("dd MMM")).ToArray(),
-                /*
-                Labels = new string[] { "17 Jun", "18 Jun", "19 Jun" },
-                LabelsRotation = 0, 
-                SeparatorsPaint = new SolidColorPaint(new SKColor(200, 200, 200)),
-                SeparatorsAtCenter = false, 
-                TicksPaint = new SolidColorPaint(new SKColor(35, 35, 35)), 
-                TicksAtCenter = true, 
-                //By default the axis tries to optimize the number of
-                // labels to fit the available space,
-                // when you need to force the axis to show all the labels then you must:
-                ForceStepToMin = true,
-                MinStep = 1,
-                */
+                Labels = dates
             }
         };
-
     }
 
     private void ProgressUpdateAction(double leftPercent100)
