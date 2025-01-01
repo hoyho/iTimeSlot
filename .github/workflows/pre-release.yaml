@@ -1,31 +1,31 @@
----
-name: "pre-release"
-on:
-  push:
-    branches:
-      - "main"
-env:
-  DOTNET_VERSION: '8.0.x'
-jobs:
-  pre-release:
-    name: "Pre Release"
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-      - name: Install dependencies
-        run: dotnet restore
+# ---
+# name: "pre-release"
+# on:
+#   push:
+#     branches:
+#       - "main"
+# env:
+#   DOTNET_VERSION: '8.0.x'
+# jobs:
+#   pre-release:
+#     name: "Pre Release"
+#     runs-on: ${{ matrix.os }}
+#     strategy:
+#       matrix:
+#         os: [ubuntu-latest, windows-latest, macOS-latest]
+#     steps:
+#       - uses: actions/checkout@v2
+#       - name: Setup .NET
+#         uses: actions/setup-dotnet@v1
+#         with:
+#           dotnet-version: ${{ env.DOTNET_VERSION }}
+#       - name: Install dependencies
+#         run: dotnet restore
 
-      - name: "Build & test"
-        run: |
-          mkdir -p _output
-          dotnet publish iTimeSlot.csproj -o _out -c Release  -f net8.0  --self-contained true -t:BundleApp
+#       - name: "Build & test"
+#         run: |
+#           mkdir -p _output
+#           dotnet publish iTimeSlot.csproj -o _out -c Release  -f net8.0  --self-contained true -t:BundleApp
       #todo: debug auto build and release
       # - name: Create Release
       #   id: create_release
