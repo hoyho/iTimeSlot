@@ -66,5 +66,6 @@ Tray icon, Popup, Installed view
 - [ ] Combine with OS's 'focus'
 - [ ] Themes
 - [ ] Better UI
-- [ ] Setup github action
+- [ ] Github action for daily build
+- [ ] Github action release
 - [ ] Test
