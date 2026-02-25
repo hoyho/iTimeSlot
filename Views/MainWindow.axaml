@@ -19,7 +19,24 @@
 
 
 
-    <TabControl TabStripPlacement="Bottom"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"   BorderBrush="Black"  >
+    <TabControl TabStripPlacement="Bottom"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                BorderBrush="Black">
+        <TabControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <UniformGrid Rows="1"/>
+            </ItemsPanelTemplate>
+        </TabControl.ItemsPanel>
+
+        <TabControl.Styles>
+            <Style Selector="TabItem">
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+            </Style>
+        </TabControl.Styles>
+
         <TabItem  >
             <TabItem.Header>
                 <StackPanel Orientation="Vertical">
