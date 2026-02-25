@@ -5,7 +5,7 @@
         WindowStartupLocation="CenterOwner"
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaToDecorationsHint="True"
-        Title="Add time to slot"
+        Title="Add time to session"
         xmlns:vm="clr-namespace:iTimeSlot.ViewModels"
         x:DataType="vm:MainWindowViewModel"
         x:Class="iTimeSlot.Views.AddTimeDialog">
@@ -22,7 +22,7 @@
   <Grid >
     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
       <Label Target="ToAddNud" FontSize="14" 
-            FontWeight="Bold" VerticalAlignment="Center">Add minute(s) to slot:</Label>
+            FontWeight="Bold" VerticalAlignment="Center">Add minute(s) to session:</Label>
       <StackPanel Orientation="Horizontal" >
         <NumericUpDown Name="ToAddNud" 
                                ButtonSpinnerLocation="Left" 
@@ -40,7 +40,7 @@
           </ToolTip.Tip>
         </PathIcon>
         <Label>   </Label>
-        <TextBlock Margin="0 10 0 5">Slot Type:</TextBlock> 
+        <TextBlock Margin="0 10 0 5">Session Type:</TextBlock> 
       </StackPanel>
 
       <RadioButton Margin="15,0" GroupName="Type"

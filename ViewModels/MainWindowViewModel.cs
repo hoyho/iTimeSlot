@@ -191,7 +191,7 @@ public partial class MainWindowViewModel : ObservableViewModelBase
         get
         {
             var selected = AllTimeSlots[IndexOfSelectedTimeInWorkspace];
-            return selected.IntervalType == IntervalType.Work ? "Work inertval" : "Break interval";
+            return selected.IntervalType == IntervalType.Work ? "Work interval" : "Break interval";
         }
         set { this.SetProperty(ref _labelStatus, value); }
     }
@@ -233,7 +233,7 @@ public partial class MainWindowViewModel : ObservableViewModelBase
 
         if (Global.MyTimer.IsStarted() && Global.MyTimer.Duration == toDel.ToTimeSpan())
         {
-            var msg = new Notification("operation not permitted", "the time slot is being used", NotificationType.Warning,
+            var msg = new Notification("operation not permitted", "the session is being used", NotificationType.Warning,
                 TimeSpan.FromSeconds(3));
             this.SettingTabNotificationManager?.Show(msg);
             return;

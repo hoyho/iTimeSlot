@@ -16,7 +16,7 @@
     <ScrollViewer>
         <StackPanel Orientation="Vertical">
             <StackPanel>
-                <TextBlock Text="Current Time Slot:" />
+                <TextBlock Text="Current Session:" />
                 <TextBlock />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
@@ -140,7 +140,7 @@
                              Width="10"
                              Height="10" />
                     <Run Text="  " />
-                    <Run Text="Completed work slots: " />
+                    <Run Text="Completed work sessions: " />
                     <Run Text="{Binding CompletedWorkCount}" />
                 </TextBlock>
             </StackPanel>

@@ -15,7 +15,7 @@
     
     <DockPanel>
         <StackPanel Margin="0">
-            <Label FontSize="14" FontWeight="Bold" VerticalAlignment="Center">Existing slot:</Label>
+            <Label FontSize="14" FontWeight="Bold" VerticalAlignment="Center">Existing sessions:</Label>
             <ScrollViewer>
               <ListBox x:Name="AllSlotsLb" MaxHeight="125" BorderBrush="Gainsboro" BorderThickness="1"
                      ItemsSource="{Binding AllTimeSlots}"
