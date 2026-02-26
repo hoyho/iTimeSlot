@@ -8,7 +8,7 @@
         x:Class="iTimeSlot.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/tray-icon.png"
-        Height="430" Width="380" MinWidth="360"
+        Height="430" Width="350"
         Title="iTimeSlot">
 
     <Design.DataContext>
@@ -40,9 +40,9 @@
 
         <TabItem  >
             <TabItem.Header>
-                <StackPanel Orientation="Vertical">
-                    <Image Source="/Assets/slot-menu.png" Width="25" Height="25" Margin="0 0 3 0"/>
-                    <TextBlock Text="Sessions" TextAlignment="Center"/>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <Image Source="/Assets/slot-menu.png" Width="22" Height="22"  Margin="0 0 3 0"/>
+                    <TextBlock Text="Timer" TextAlignment="Center"/>
                 </StackPanel>
             </TabItem.Header>
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -54,8 +54,8 @@
 
         <TabItem >
             <TabItem.Header>
-                <StackPanel Orientation="Vertical" >
-                    <Image Source="/Assets/setting-menu.png" Width="25" Height="25" Margin="0 0 3 0"/>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <Image Source="/Assets/setting-menu.png" Width="22" Height="22" Margin="0 0 3 0"/>
                     <TextBlock Text="Settings" TextAlignment="Center"/>
                 </StackPanel>
             </TabItem.Header>
@@ -69,9 +69,9 @@
         </TabItem >
         <TabItem >
             <TabItem.Header>
-                <StackPanel Orientation="Vertical" >
-                    <Image Source="/Assets/account-menu.png" Width="25" Height="25" Margin="0 0 3 0"/>
-                    <TextBlock Text="Statistics" TextAlignment="Center"/>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <Image Source="/Assets/account-menu.png" Width="22" Height="22"  Margin="0 0 3 0"/>
+                    <TextBlock Text="Stats" TextAlignment="Center"/>
                 </StackPanel>
             </TabItem.Header>
             
